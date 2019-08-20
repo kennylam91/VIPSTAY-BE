@@ -11,7 +11,7 @@ public class House {
 
     private String houseName;
 
-    private String typeName;
+    private String houseType;
 
     private String address;
 
@@ -33,7 +33,7 @@ public class House {
 
     public House(String houseName, String typeName, String address, Long bedRoomNumber, Long bathroomNumber, String description, Long price, String image, Long rate) {
         this.houseName = houseName;
-        this.typeName = typeName;
+        this.houseType = typeName;
         this.address = address;
         this.bedRoomNumber = bedRoomNumber;
         this.bathroomNumber = bathroomNumber;
@@ -59,12 +59,12 @@ public class House {
         this.houseName = houseName;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getHouseType() {
+        return houseType;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setHouseType(String houseType) {
+        this.houseType = houseType;
     }
 
     public String getAddress() {
