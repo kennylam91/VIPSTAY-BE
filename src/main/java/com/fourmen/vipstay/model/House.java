@@ -15,7 +15,7 @@ public class House {
 
     private String address;
 
-    private Long bedRoomNumber;
+    private Long bedroomNumber;
 
     private Long bathroomNumber;
 
@@ -35,7 +35,7 @@ public class House {
         this.houseName = houseName;
         this.houseType = typeName;
         this.address = address;
-        this.bedRoomNumber = bedRoomNumber;
+        this.bedroomNumber = bedRoomNumber;
         this.bathroomNumber = bathroomNumber;
         this.description = description;
         this.price = price;
@@ -75,12 +75,12 @@ public class House {
         this.address = address;
     }
 
-    public Long getBedRoomNumber() {
-        return bedRoomNumber;
+    public Long getBedroomNumber() {
+        return bedroomNumber;
     }
 
-    public void setBedRoomNumber(Long bedRoomNumber) {
-        this.bedRoomNumber = bedRoomNumber;
+    public void setBedroomNumber(Long bedroomNumber) {
+        this.bedroomNumber = bedroomNumber;
     }
 
     public Long getBathroomNumber() {

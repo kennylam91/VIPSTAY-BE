@@ -43,7 +43,7 @@ public class HouseController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/house/{id}")
+    @PutMapping("/houses/{id}")
     public ResponseEntity<Void> editHouse(@RequestBody House house, @PathVariable Long id){
         House currentHouse = this.houseService.findById(id);
 
@@ -55,7 +55,7 @@ public class HouseController {
         currentHouse.setHouseName(house.getHouseName());
         currentHouse.setHouseType(house.getHouseType());
         currentHouse.setAddress(house.getAddress());
-        currentHouse.setBedRoomNumber(house.getBedRoomNumber());
+        currentHouse.setBedroomNumber(house.getBedroomNumber());
         currentHouse.setBathroomNumber(house.getBathroomNumber());
         currentHouse.setDescription(house.getDescription());
         currentHouse.setPrice(house.getPrice());
@@ -74,6 +74,7 @@ public class HouseController {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
+        this.houseService.deleteHouse(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
