@@ -28,19 +28,22 @@ public class House {
 
     private Long rate;
 
+    private Long area;
+
     public House() {
     }
 
-    public House(String houseName, String typeName, String address, Long bedRoomNumber, Long bathroomNumber, String description, Long price, String image, Long rate) {
+    public House(String houseName, String houseType, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area) {
         this.houseName = houseName;
-        this.houseType = typeName;
+        this.houseType = houseType;
         this.address = address;
-        this.bedroomNumber = bedRoomNumber;
+        this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;
         this.description = description;
         this.price = price;
         this.image = image;
         this.rate = rate;
+        this.area = area;
     }
 
     public Long getId() {
@@ -121,5 +124,13 @@ public class House {
 
     public void setRate(Long rate) {
         this.rate = rate;
+    }
+
+    public Long getArea() {
+        return area;
+    }
+
+    public void setArea(Long area) {
+        this.area = area;
     }
 }

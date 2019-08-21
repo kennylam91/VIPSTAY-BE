@@ -61,6 +61,7 @@ public class HouseController {
         currentHouse.setPrice(house.getPrice());
         currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
+        currentHouse.setArea(house.getArea());
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
