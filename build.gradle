@@ -4,6 +4,9 @@ plugins {
     id 'java'
     id 'war'
 }
+war {
+    enabled=true
+}
 
 group = 'com.fourmen'
 version = '0.0.1-SNAPSHOT'
