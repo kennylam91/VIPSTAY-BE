@@ -22,8 +22,6 @@ public class User {
 
     Long age;
 
-    String type;
-
     String address;
 
     String phone;
@@ -83,14 +81,6 @@ public class User {
 
     public void setAge(Long age) {
         this.age = age;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAddress() {
