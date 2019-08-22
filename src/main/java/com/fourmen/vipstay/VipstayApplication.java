@@ -7,6 +7,7 @@ import com.fourmen.vipstay.service.impl.UserServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @SpringBootApplication
 public class VipstayApplication {
@@ -21,6 +22,11 @@ public class VipstayApplication {
 
     @Bean
     public UserService userService(){
+        return new UserServiceImpl();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
         return new UserServiceImpl();
     }
 }
