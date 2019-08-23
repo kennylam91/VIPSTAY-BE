@@ -4,10 +4,16 @@ import com.fourmen.vipstay.service.HouseService;
 import com.fourmen.vipstay.service.impl.HouseServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class VipstayApplication {
+public class VipstayApplication extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(VipstayApplication.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(VipstayApplication.class, args);
