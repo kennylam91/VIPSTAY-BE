@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors() // Ngăn chặn request từ một domain khác
                 .and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/signup","/api/signin").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/api/signup","/api/signin","/api/houses").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
                 .anyRequest().authenticated()
                 .and().
                 // make sure we use stateless session; session won't be used to

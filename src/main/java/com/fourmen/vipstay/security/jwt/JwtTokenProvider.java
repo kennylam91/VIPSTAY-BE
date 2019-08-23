@@ -24,7 +24,7 @@ public class JwtTokenProvider {
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         // Tạo chuỗi json web token từ id của user.
         return Jwts.builder()
-                .setSubject(Long.toString(userDetails.getUser().getId()))
+                .setSubject((userDetails.getUser().getUsername()))
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 //SignatureAlgorith gồm nhiều thuật toán mã hóa cho dev lựa chọn(VD: thuật toán HS512)
@@ -44,10 +44,17 @@ public class JwtTokenProvider {
 
     // Lấy thông tin user thông qua username;
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token)
-                .getBody().getSubject();
+        Object parser=Jwts.parser();
+        Object parser1=Jwts.parser().setSigningKey(JWT_SECRET);
+        Object parser2=Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+        Object parser3=Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();
+        Object parser4=Jwts.parser().setSigningKey(JWT_SECRET)
+                .parseClaimsJws(token).getBody().getSubject();
+        return (String) parser4;
+//        return Jwts.parser()
+//                .setSigningKey(JWT_SECRET)
+//                .parseClaimsJws(token)
+//                .getBody().getSubject();
     }
 
     public boolean validateToken(String authToken) {
