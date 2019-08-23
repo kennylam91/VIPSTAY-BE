@@ -14,12 +14,10 @@ public class VipstayApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(VipstayApplication.class, args);
     }
-
     @Bean
     public HouseService houseService() {
         return new HouseServiceImpl();
     }
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(VipstayApplication.class);

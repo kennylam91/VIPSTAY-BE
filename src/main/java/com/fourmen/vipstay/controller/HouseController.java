@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api")
 public class HouseController {
 
     @Autowired
@@ -61,6 +63,7 @@ public class HouseController {
         currentHouse.setPrice(house.getPrice());
         currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
+        currentHouse.setArea(house.getArea());
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
