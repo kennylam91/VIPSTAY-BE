@@ -5,6 +5,7 @@ import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class HouseController {
     private HouseService houseService;
 
     @GetMapping("/houses")
+    @PreAuthorize("hasRole('GUEST')")
     public ResponseEntity<List<House>> listAllHouse(){
         List<House> houses = this.houseService.findAll();
 

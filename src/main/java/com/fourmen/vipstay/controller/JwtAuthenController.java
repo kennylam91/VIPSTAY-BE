@@ -1,18 +1,31 @@
 package com.fourmen.vipstay.controller;
 
-import com.fourmen.vipstay.config.JwtTokenUtil;
-import com.fourmen.vipstay.model.JwtRequest;
-import com.fourmen.vipstay.model.JwtResponse;
-import com.fourmen.vipstay.model.RequestUser;
-import com.fourmen.vipstay.service.impl.JwtUserDetailsService;
+import com.fourmen.vipstay.form.request.LogInForm;
+import com.fourmen.vipstay.form.request.SignUpForm;
+import com.fourmen.vipstay.form.response.JwtResponse;
+import com.fourmen.vipstay.form.response.ResponseMessage;
+import com.fourmen.vipstay.model.Role;
+import com.fourmen.vipstay.model.RoleName;
+import com.fourmen.vipstay.model.User;
+import com.fourmen.vipstay.repository.RoleRepository;
+import com.fourmen.vipstay.repository.UserRepository;
+import com.fourmen.vipstay.security.jwt.JwtTokenUtil;
+import com.fourmen.vipstay.security.service.JwtUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @CrossOrigin
@@ -24,30 +37,81 @@ public class JwtAuthenController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private JwtUserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody RequestUser user) throws Exception {
-        return ResponseEntity.ok(userDetailsService.save(user));
-    }
-
-    private void authenticate(String username, String password) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody LogInForm loginRequest) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String jwt = jwtTokenUtil.generateToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpRequest) throws Exception {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(RoleName.ROLE_ADMIN);
+        roles.add(role);
+
+//        strRoles.forEach(role -> {
+//            switch (role) {
+//                case "admin":
+//                    Role adminRole = roleRepository.findByName(RoleName.ADMIN)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+//                    roles.add(adminRole);
+//
+//                    break;
+//                case "pm":
+//                    Role pmRole = roleRepository.findByName(RoleName.PM)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+//                    roles.add(pmRole);
+//
+//                    break;
+//                default:
+//                    Role userRole = roleRepository.findByName(RoleName.USER)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+//                    roles.add(userRole);
+//            }
+//        });
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
     }
 }

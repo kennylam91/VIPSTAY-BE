@@ -1,5 +1,7 @@
 package com.fourmen.vipstay.config;
 
+import com.fourmen.vipstay.security.jwt.JwtAuthenEntryPoint;
+import com.fourmen.vipstay.security.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
