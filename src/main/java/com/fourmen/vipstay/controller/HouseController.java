@@ -15,7 +15,7 @@ public class HouseController {
 
     @Autowired
     private HouseService houseService;
-
+    @CrossOrigin
     @GetMapping("/houses")
     public ResponseEntity<List<House>> listAllHouse(){
         List<House> houses = this.houseService.findAll();
