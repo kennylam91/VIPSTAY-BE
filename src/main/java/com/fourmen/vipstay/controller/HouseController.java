@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class HouseController {
@@ -19,7 +19,7 @@ public class HouseController {
     private HouseService houseService;
 
     @GetMapping("/houses")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('OWNER')")
     public ResponseEntity<List<House>> listAllHouse(){
         List<House> houses = this.houseService.findAll();
 
