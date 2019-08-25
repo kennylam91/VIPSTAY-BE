@@ -56,7 +56,7 @@ public class OwnerController {
 
         currentHouse.setId(house.getId());
         currentHouse.setHouseName(house.getHouseName());
-        currentHouse.setHouseType(house.getHouseType());
+        currentHouse.setCategory(house.getCategory());
         currentHouse.setAddress(house.getAddress());
         currentHouse.setBedroomNumber(house.getBedroomNumber());
         currentHouse.setBathroomNumber(house.getBathroomNumber());
