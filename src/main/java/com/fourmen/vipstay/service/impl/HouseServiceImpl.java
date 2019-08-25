@@ -18,6 +18,11 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public List<House> findByUserId(long userId) {
+        return houseRepository.findByUserId(userId);
+    }
+
+    @Override
     public House findById(Long id) {
         return houseRepository.findById(id).get();
     }

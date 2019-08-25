@@ -30,6 +30,13 @@ public class House {
 
     private Long area;
 
+    @Enumerated(EnumType.STRING)
+    private StatusHouse status;
+
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private User user;
+
     public House() {
     }
 
@@ -132,5 +139,21 @@ public class House {
 
     public void setArea(Long area) {
         this.area = area;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public StatusHouse getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusHouse status) {
+        this.status = status;
     }
 }
