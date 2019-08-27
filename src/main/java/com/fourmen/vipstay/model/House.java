@@ -12,7 +12,7 @@ public class House {
     private String houseName;
 
     @ManyToOne
-    @JoinColumn(name = "categories")
+    @JoinColumn(name = "category")
     private Category category;
 
     private String address;
@@ -38,6 +38,9 @@ public class House {
     @ManyToOne
     @JoinColumn(name = "owner")
     private User user;
+
+//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+//    private List<House_Guest> house_guests;
 
     public House() {
     }

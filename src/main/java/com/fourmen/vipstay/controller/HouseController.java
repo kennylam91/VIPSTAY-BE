@@ -1,6 +1,8 @@
 package com.fourmen.vipstay.controller;
 
+import com.fourmen.vipstay.form.response.ResponseMessage;
 import com.fourmen.vipstay.model.House;
+import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,7 @@ public class HouseController {
     @GetMapping("/booking/{id}")
     public ResponseEntity<ResponseMessage> bookingHouse(@PathVariable Long id){
         House house=houseService.findById(id);
-        if (house.getStatus()==StatusHouse.AVAILABLE){
+        if (house.getStatus()== StatusHouse.AVAILABLE){
             house.setStatus(StatusHouse.BOOKED);
             return new ResponseEntity<ResponseMessage>(new ResponseMessage("Successfully"),HttpStatus.OK);
         }else {

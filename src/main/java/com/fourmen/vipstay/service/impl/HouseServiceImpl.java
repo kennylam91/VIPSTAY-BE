@@ -4,9 +4,11 @@ import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.repository.HouseRepository;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class HouseServiceImpl implements HouseService {
 
     @Autowired

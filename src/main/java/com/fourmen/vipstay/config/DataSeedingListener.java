@@ -29,49 +29,29 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
         // record into database all role name of RoleName enum
-        for (RoleName roleName:RoleName.values()){
-            if (roleRepository.findByName(roleName)==null){
+        for (RoleName roleName : RoleName.values()) {
+            if (roleRepository.findByName(roleName) == null) {
                 roleRepository.save(new Role(roleName));
             }
         }
 
-        // set default Admin account
-        if (userRepository.findByUsername("admin") == null) {
-            User admin = new User();
-            admin.setEmail("admin@gmail.com");
-            admin.setName("admin");
-            admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("123456"));
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepository.findByName(RoleName.ROLE_ADMIN));
-            admin.setRoles(roles);
-            userRepository.save(admin);
-        }
-
-        // Owner account
-        if (userRepository.findByUsername("owner") == null) {
-            User owner = new User();
-            owner.setEmail("owner@gmail.com");
-            owner.setName("owner");
-            owner.setUsername("owner");
-            owner.setPassword(passwordEncoder.encode("123456"));
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepository.findByName(RoleName.ROLE_OWNER));
-            owner.setRoles(roles);
-            userRepository.save(owner);
-        }
-
-        // Guest account
-        if (userRepository.findByUsername("guest") == null) {
-            User guest = new User();
-            guest.setEmail("guest@gmail.com");
-            guest.setName("guest");
-            guest.setUsername("guest");
-            guest.setPassword(passwordEncoder.encode("123456"));
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepository.findByName(RoleName.ROLE_GUEST));
-            guest.setRoles(roles);
-            userRepository.save(guest);
+        // set some default user
+        String[] userDefaultStr = new String[]{"admin", "owner", "guest"};
+        for (String userStr : userDefaultStr) {
+            if (userRepository.findByUsername(userStr) == null) {
+                User user = new User();
+                String email = userStr + "@gmail.com";
+                user.setEmail(email);
+                user.setName(userStr);
+                user.setUsername(userStr);
+                user.setPassword(passwordEncoder.encode("123456"));
+                Set<Role> roles = new HashSet<>();
+                RoleName roleName = userStr.equals("admin") ? RoleName.ROLE_ADMIN :
+                        userStr.equals("owner") ? RoleName.ROLE_OWNER : RoleName.ROLE_GUEST;
+                roles.add(roleRepository.findByName(roleName));
+                user.setRoles(roles);
+                userRepository.save(user);
+            }
         }
     }
 

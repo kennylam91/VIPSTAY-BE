@@ -19,7 +19,7 @@ public class GuestController {
     private HouseService houseService;
 
     @GetMapping("/houses")
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
     public ResponseEntity<List<House>> listAllHouse(){
         List<House> houses = this.houseService.findAll();
 
@@ -31,7 +31,7 @@ public class GuestController {
     }
 
     @GetMapping("/houses/{id}")
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
     public ResponseEntity<House> getHouse(@PathVariable Long id){
         House house = this.houseService.findById(id);
 

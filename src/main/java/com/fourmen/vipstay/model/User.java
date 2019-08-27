@@ -43,6 +43,9 @@ public class User{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+//    private List<House_Guest> house_guests;
+
     public User() {}
 
     public User(String name, String username, String email, String password) {
