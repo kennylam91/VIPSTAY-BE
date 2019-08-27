@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*",maxAge = 60)
 @RestController
+@RequestMapping("/api")
 public class HouseController {
 
     @Autowired
