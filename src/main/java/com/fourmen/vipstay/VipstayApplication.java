@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class VipstayApplication extends SpringBootServletInitializer {
 
+public class VipstayApplication extends SpringBootServletInitializer {
+
     public static void main(String[] args) {
         SpringApplication.run(VipstayApplication.class, args);
     }

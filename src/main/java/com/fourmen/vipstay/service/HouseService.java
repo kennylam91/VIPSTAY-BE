@@ -8,6 +8,8 @@ public interface HouseService {
 
     List<House> findAll();
 
+    List<House> findByUserId(long userId);
+
     House findById(Long id);
 
     void createHouse(House house);

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api")
-public class HouseController {
+@RequestMapping("/api/me")
+public class GuestController {
 
     @Autowired
     private HouseService houseService;
@@ -40,16 +40,6 @@ public class HouseController {
         }
 
         return new ResponseEntity<House>(house, HttpStatus.OK);
-    }
-    @GetMapping("/booking/{id}")
-    public ResponseEntity<ResponseMessage> bookingHouse(@PathVariable Long id){
-        House house=houseService.findById(id);
-        if (house.getStatus()==StatusHouse.AVAILABLE){
-            house.setStatus(StatusHouse.BOOKED);
-            return new ResponseEntity<ResponseMessage>(new ResponseMessage("Successfully"),HttpStatus.OK);
-        }else {
-            return new ResponseEntity<ResponseMessage>(new ResponseMessage("Unavailable"),HttpStatus.OK);
-        }
     }
 }
 

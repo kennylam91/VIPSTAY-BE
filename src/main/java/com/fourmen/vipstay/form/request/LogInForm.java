@@ -1,9 +1,15 @@
-package com.fourmen.vipstay.model;
-//Define the UserDTO model class as follows.
-// It is responsible for getting values from user
-// and passing it to the DAO layer for inserting in database.
-public class RequestUser {
+package com.fourmen.vipstay.form.request;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class LogInForm {
+    @NotBlank
+    @Size(min = 3, max = 60)
     private String username;
+
+    @NotBlank
+    @Size(min = 6, max = 40)
     private String password;
 
     public String getUsername() {

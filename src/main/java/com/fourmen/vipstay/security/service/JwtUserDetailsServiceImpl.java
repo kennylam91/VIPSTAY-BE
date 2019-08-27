@@ -1,39 +1,38 @@
-package com.fourmen.vipstay.service.impl;
+package com.fourmen.vipstay.security.service;
 
-import com.fourmen.vipstay.model.CustomUser;
-import com.fourmen.vipstay.model.RequestUser;
-import com.fourmen.vipstay.repository.CustomUserRepository;
+import com.fourmen.vipstay.form.request.SignUpForm;
+import com.fourmen.vipstay.model.User;
+import com.fourmen.vipstay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private CustomUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CustomUser user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        User user1 = new User(user.getUsername(), user.getPassword(), new ArrayList<>());
-        return user1;
+        return UserPrinciple.build(user);
     }
 
-    public CustomUser save(RequestUser user) {
-        CustomUser newUser = new CustomUser();
+    public User save(SignUpForm user) {
+        User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         return userRepository.save(newUser);

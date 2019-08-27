@@ -1,40 +1,55 @@
 package com.fourmen.vipstay.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class User {
-
+@Table(name = "users",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"username","email"})
+})
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String username;
+    @NotBlank
+    @Size(min=3, max = 50)
+    private String name;
 
-    String password;
+    @NotBlank
+    @Size(min=3, max = 50)
+    private String username;
 
-    String role;
+    @NaturalId
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
 
-    String name;
+    @NotBlank
+    @Size(min=6, max = 100)
+    private String password;
 
-    Long age;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    String type;
+    public User() {}
 
-    String address;
-
-    String phone;
-
-    String email;
-
-    String idNumber;
-
-    String avatar;
-
-    public User() {
+    public User(String name, String username, String email, String password) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
@@ -53,60 +68,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getAge() {
-        return age;
-    }
-
-    public void setAge(Long age) {
-        this.age = age;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getEmail() {
@@ -117,19 +84,19 @@ public class User {
         this.email = email;
     }
 
-    public String getIdNumber() {
-        return idNumber;
+    public String getPassword() {
+        return password;
     }
 
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

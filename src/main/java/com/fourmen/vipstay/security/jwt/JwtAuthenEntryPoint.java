@@ -1,4 +1,4 @@
-package com.fourmen.vipstay.config;
+package com.fourmen.vipstay.security.jwt;
 
 
 import org.springframework.security.core.AuthenticationException;

@@ -11,7 +11,9 @@ public class House {
 
     private String houseName;
 
-    private String houseType;
+    @ManyToOne
+    @JoinColumn(name = "categories")
+    private Category category;
 
     private String address;
 
@@ -30,12 +32,19 @@ public class House {
 
     private Long area;
 
+    @Enumerated(EnumType.STRING)
+    private StatusHouse status;
+
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private User user;
+
     public House() {
     }
 
-    public House(String houseName, String houseType, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area) {
+    public House(String houseName, Category category , String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area) {
         this.houseName = houseName;
-        this.houseType = houseType;
+        this.category =category ;
         this.address = address;
         this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;
@@ -62,12 +71,12 @@ public class House {
         this.houseName = houseName;
     }
 
-    public String getHouseType() {
-        return houseType;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setHouseType(String houseType) {
-        this.houseType = houseType;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getAddress() {
@@ -132,5 +141,21 @@ public class House {
 
     public void setArea(Long area) {
         this.area = area;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public StatusHouse getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusHouse status) {
+        this.status = status;
     }
 }
