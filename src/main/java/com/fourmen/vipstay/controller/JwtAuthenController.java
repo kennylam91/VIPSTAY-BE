@@ -3,7 +3,7 @@ package com.fourmen.vipstay.controller;
 import com.fourmen.vipstay.form.request.LogInForm;
 import com.fourmen.vipstay.form.request.SignUpForm;
 import com.fourmen.vipstay.form.response.JwtResponse;
-import com.fourmen.vipstay.form.response.ResponseMessage;
+import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.Role;
 import com.fourmen.vipstay.model.RoleName;
 import com.fourmen.vipstay.model.User;
@@ -29,6 +29,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/api")
 public class JwtAuthenController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,7 +38,7 @@ public class JwtAuthenController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtUserDetailsServiceImpl userDetailsService;
+    private JwtUserDetailsServiceImpl jwtUserDetailsService;
 
     @Autowired
     private UserRepository userRepository;
@@ -49,7 +50,7 @@ public class JwtAuthenController {
     PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LogInForm loginRequest) throws Exception {
+    public ResponseEntity<StandardResponse> createAuthenticationToken(@RequestBody LogInForm loginRequest) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -59,7 +60,9 @@ public class JwtAuthenController {
             String jwt = jwtTokenUtil.generateToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+            return new  ResponseEntity<StandardResponse>(
+                    new StandardResponse(true,"Generate token successfully",new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+                    HttpStatus.OK);
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
@@ -67,15 +70,19 @@ public class JwtAuthenController {
         }
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpRequest) throws Exception {
+    //signup with ROLE_HOST
+    @RequestMapping(value = "/host/signup", method = RequestMethod.POST)
+    public ResponseEntity<StandardResponse> registerHost(@RequestBody SignUpForm signUpRequest) throws Exception {
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false,"Fail -> Username is already token!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false,"Fail -> Email is already in use!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -84,12 +91,44 @@ public class JwtAuthenController {
                 passwordEncoder.encode(signUpRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName(RoleName.ROLE_ADMIN);
+        Role role = roleRepository.findByName(RoleName.ROLE_HOST);
         roles.add(role);
-
         user.setRoles(roles);
         userRepository.save(user);
 
-        return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true,"User registered with ROLE_HOST successfully!",null),
+                HttpStatus.OK);
+    }
+
+    //signup with ROLE_GUEST
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<StandardResponse> registerUser(@RequestBody SignUpForm signUpRequest) throws Exception {
+
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false,"Fail -> Username is already token!",null),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false,"Fail -> Email is already in use!",null),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(RoleName.ROLE_GUEST);
+        roles.add(role);
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true,"User registered with ROLE_GUEST successfully!",null),
+                HttpStatus.OK);
     }
 }

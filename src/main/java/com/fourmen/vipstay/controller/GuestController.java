@@ -1,5 +1,6 @@
 package com.fourmen.vipstay.controller;
 
+import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//must login with guest role
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/me")
@@ -18,28 +20,29 @@ public class GuestController {
     @Autowired
     private HouseService houseService;
 
-    @GetMapping("/houses")
+    @RequestMapping(value = "/houses", method = RequestMethod.GET)
     @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
-    public ResponseEntity<List<House>> listAllHouse(){
+    //not done
+    public ResponseEntity<StandardResponse> listHouseOfGuest() {
         List<House> houses = this.houseService.findAll();
 
-        if(houses.isEmpty()){
-            return new ResponseEntity<List<House>>(HttpStatus.NOT_FOUND);
+        if (houses.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<List<House>>(houses, HttpStatus.OK);
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "Successfully. Get list house that was booked by guest", houses), HttpStatus.OK);
     }
 
-    @GetMapping("/houses/{id}")
+    @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
-    public ResponseEntity<House> getHouse(@PathVariable Long id){
+    public ResponseEntity<StandardResponse> getGuestHouse(@PathVariable Long id) {
         House house = this.houseService.findById(id);
 
-        if (house == null){
-            return new ResponseEntity<House>(HttpStatus.NOT_FOUND);
+        if (house == null) {
+            return new ResponseEntity<StandardResponse>(new StandardResponse(true, "Successfully but not found data", null), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<House>(house, HttpStatus.OK);
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "Successfully. Get detail house that was booked by guest", house), HttpStatus.OK);
     }
 }
 
