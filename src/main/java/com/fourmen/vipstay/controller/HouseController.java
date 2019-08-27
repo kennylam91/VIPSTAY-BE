@@ -6,7 +6,6 @@ import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class HouseController {
     private HouseService houseService;
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('HOST')")
     public ResponseEntity<StandardResponse> listAllHouse() {
         List<House> houses = this.houseService.findAll();
 
@@ -37,7 +35,6 @@ public class HouseController {
     }
 
     @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('HOST')")
     public ResponseEntity<StandardResponse> getHouse(@PathVariable Long id) {
         House house = this.houseService.findById(id);
 
