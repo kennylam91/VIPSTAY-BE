@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/host")
-public class OwnerController {
+public class HostController {
 
     @Autowired
     private HouseService houseService;

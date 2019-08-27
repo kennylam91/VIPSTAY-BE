@@ -36,7 +36,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         // set some default user
-        String[] userDefaultStr = new String[]{"admin", "owner", "guest"};
+        String[] userDefaultStr = new String[]{"admin", "host", "guest"};
         for (String userStr : userDefaultStr) {
             if (userRepository.findByUsername(userStr) == null) {
                 User user = new User();
@@ -47,7 +47,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 user.setPassword(passwordEncoder.encode("123456"));
                 Set<Role> roles = new HashSet<>();
                 RoleName roleName = userStr.equals("admin") ? RoleName.ROLE_ADMIN :
-                        userStr.equals("owner") ? RoleName.ROLE_OWNER : RoleName.ROLE_GUEST;
+                        userStr.equals("host") ? RoleName.ROLE_HOST : RoleName.ROLE_GUEST;
                 roles.add(roleRepository.findByName(roleName));
                 user.setRoles(roles);
                 userRepository.save(user);
