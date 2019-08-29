@@ -1,5 +1,7 @@
 package com.fourmen.vipstay.model;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class House {
 
     private String houseName;
 
+    @Ignore
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
@@ -32,8 +35,11 @@ public class House {
 
     private Long area;
 
+
     @Enumerated(EnumType.STRING)
     private StatusHouse status;
+
+
 
     @ManyToOne
     @JoinColumn(name = "owner")
