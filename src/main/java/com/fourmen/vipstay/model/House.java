@@ -38,7 +38,7 @@ public class House {
 //    private List<ImageHouse> imageHouses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private StatusHouse status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -47,7 +47,7 @@ public class House {
     public House() {
     }
 
-    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, StatusHouse status, User user) {
+    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, Status status, User user) {
         this.houseName = houseName;
         this.category = category;
         this.address = address;
@@ -150,11 +150,11 @@ public class House {
         this.imageUrls = imageUrls;
     }
 
-    public StatusHouse getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusHouse status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

@@ -127,7 +127,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             house.setHouseName(houseNames[i]);
             boolean isExistHouse = houseRepository.findByHouseName(house.getHouseName()) == null;
             if (isExistHouse) {
-                house.setStatus(StatusHouse.AVAILABLE);
+                house.setStatus(Status.AVAILABLE);
                 house.setAddress(addresses[i]);
                 house.setDescription(descriptions[i]);
                 house.setBathroomNumber((long) bathrooms[i]);

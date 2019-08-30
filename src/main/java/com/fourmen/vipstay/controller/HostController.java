@@ -4,7 +4,7 @@ import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.Category;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.ImageOfHouse;
-import com.fourmen.vipstay.model.StatusHouse;
+import com.fourmen.vipstay.model.Status;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.CategoryService;
 import com.fourmen.vipstay.service.HouseService;
@@ -65,7 +65,7 @@ public class HostController {
         Category category = categoryService.findByName(typeName);
         //save house
         House house = imageOfHouses.get(0).getHouse();
-        house.setStatus(StatusHouse.AVAILABLE);
+        house.setStatus(Status.AVAILABLE);
         house.setCategory(category);
         house.setUser(userService.findByUserName(getCurrentUser().getUsername()));
         this.houseService.createHouse(house);
