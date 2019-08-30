@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api")
 public class JwtAuthenController {
     @Autowired

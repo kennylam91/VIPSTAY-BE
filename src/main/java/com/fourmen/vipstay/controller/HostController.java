@@ -24,7 +24,6 @@ public class HostController {
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
     }
 
     @GetMapping("/houses")
@@ -74,6 +73,8 @@ public class HostController {
         currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
         currentHouse.setArea(house.getArea());
+        currentHouse.setEndDate(house.getEndDate());
+        currentHouse.setStartDate(house.getStartDate());
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<StandardResponse>(

@@ -17,6 +17,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.server.ServerWebExchange;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 //This class extends the WebSecurityConfigurerAdapter
 // is a convenience class that allows customization
@@ -56,10 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/api/login","/api/signup","/api/host/signup","/api/houses","/api/houses/*").permitAll()
-                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .authorizeRequests().antMatchers("/api/login", "/api/signup", "/api/host/signup", "/api/houses", "/api/houses/*").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // all other requests need to be authenticated
-                        .anyRequest().authenticated().and().
+                .anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -67,20 +73,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //CORN
-//        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
-//
-//            @Override
-//            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-//                CorsConfiguration config = new CorsConfiguration();
-//                config.setAllowedHeaders(Collections.singletonList("*"));
-//                config.setAllowedMethods(Collections.singletonList("*"));
-//                config.addAllowedOrigin("*");
-//                config.setAllowCredentials(true);
-//                return config;
-//            }
-//        });
+//        CORN
+        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
 
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedHeaders(Collections.singletonList("*"));
+                config.setAllowedMethods(Collections.singletonList("*"));
+                config.addAllowedOrigin("*");
+                config.setAllowCredentials(true);
+                return config;
+            }
+        });
     }
-
 }
