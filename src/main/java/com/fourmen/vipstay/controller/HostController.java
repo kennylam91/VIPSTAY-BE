@@ -1,10 +1,12 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
+import com.fourmen.vipstay.model.Category;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.ImageOfHouse;
 import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.security.service.UserPrinciple;
+import com.fourmen.vipstay.service.CategoryService;
 import com.fourmen.vipstay.service.HouseService;
 import com.fourmen.vipstay.service.ImageHouseService;
 import com.fourmen.vipstay.service.UserService;
@@ -31,6 +33,9 @@ public class HostController {
     @Autowired
     private ImageHouseService imageHouseService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -53,12 +58,18 @@ public class HostController {
     }
 
     @PostMapping("/houses")
-//    @PreAuthorize("hasRole('HOST')")
+    @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<StandardResponse> createHouse(@RequestBody List<ImageOfHouse> imageOfHouses) {
+        //find category
+        String typeName = imageOfHouses.get(0).getHouse().getCategory().getName();
+        Category category = categoryService.findByName(typeName);
+        //save house
         House house = imageOfHouses.get(0).getHouse();
         house.setStatus(StatusHouse.AVAILABLE);
+        house.setCategory(category);
         house.setUser(userService.findByUserName(getCurrentUser().getUsername()));
         this.houseService.createHouse(house);
+        //save image of house
         for (ImageOfHouse imageOfHouse : imageOfHouses) {
             imageOfHouse.setHouse(house);
             this.imageHouseService.createImageHouse(imageOfHouse);
