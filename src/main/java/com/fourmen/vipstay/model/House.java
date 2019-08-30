@@ -1,6 +1,7 @@
 package com.fourmen.vipstay.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class House {
@@ -14,6 +15,9 @@ public class House {
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
+
+    @OneToMany(targetEntity = ImageOfHouse.class)
+    private List<String> imageUrls;
 
     private String address;
 
@@ -138,13 +142,13 @@ public class House {
     }
 
 
-//    public List<ImageHouse> getImageHouses() {
-//        return imageHouses;
-//    }
-//
-//    public void setImages(List<ImageHouse> imageHouses) {
-//        this.imageHouses = imageHouses;
-//    }
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
 
     public StatusHouse getStatus() {
         return status;

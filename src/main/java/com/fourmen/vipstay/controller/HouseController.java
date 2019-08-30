@@ -3,6 +3,7 @@ package com.fourmen.vipstay.controller;
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.service.HouseService;
+import com.fourmen.vipstay.service.ImageHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,16 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
+    @Autowired
+    private ImageHouseService imageHouseService;
+
     @RequestMapping(value = "/houses", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> listAllHouse() {
         List<House> houses = this.houseService.findAll();
-
+        for (House house:houses){
+            List<String> listImageUrlOfHouse=imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
+            house.setImageUrls(listImageUrlOfHouse);
+        }
         if (houses.isEmpty()) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(true, "Successfully but not found data", null),
@@ -37,6 +44,8 @@ public class HouseController {
     @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> getHouse(@PathVariable Long id) {
         House house = this.houseService.findById(id);
+        List<String> listImageUrlOfHouse=imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
+        house.setImageUrls(listImageUrlOfHouse);
 
         if (house == null) {
             return new ResponseEntity<StandardResponse>(

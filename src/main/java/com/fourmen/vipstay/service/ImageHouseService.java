@@ -9,6 +9,10 @@ import java.util.List;
 public interface ImageHouseService {
     List<ImageOfHouse> findAll();
 
+    List<ImageOfHouse> findByHouseId(Long id);
+
+    List<String> getListImageUrlOfHouseByHouseId(Long id);
+
     ImageOfHouse findById(Long id);
 
     void createImageHouse(ImageOfHouse imageOfHouse);

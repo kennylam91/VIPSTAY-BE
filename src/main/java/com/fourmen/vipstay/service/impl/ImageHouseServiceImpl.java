@@ -6,6 +6,7 @@ import com.fourmen.vipstay.service.ImageHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +17,21 @@ public class ImageHouseServiceImpl implements ImageHouseService {
     @Override
     public List<ImageOfHouse> findAll() {
         return imageHouseRepository.findAll();
+    }
+
+    @Override
+    public List<ImageOfHouse> findByHouseId(Long id) {
+        return imageHouseRepository.findByHouseId(id);
+    }
+
+    @Override
+    public List<String> getListImageUrlOfHouseByHouseId(Long id) {
+        List<String> listImageUrl=new ArrayList<>();
+        List<ImageOfHouse> imageOfHouses=imageHouseRepository.findByHouseId(id);
+        for (ImageOfHouse image:imageOfHouses){
+            listImageUrl.add(image.getImageUrl());
+        }
+        return listImageUrl;
     }
 
     @Override
