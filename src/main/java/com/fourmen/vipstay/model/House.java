@@ -33,8 +33,8 @@ public class House {
 
     private Long area;
 
-    @Enumerated(EnumType.STRING)
-    private StatusHouse status;
+//    @Enumerated(EnumType.STRING)
+//    private StatusHouse status;
 
     @ManyToOne
     @JoinColumn(name = "owner")
@@ -63,7 +63,6 @@ public class House {
         this.image = image;
         this.rate = rate;
         this.area = area;
-        this.status = status;
         this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -163,14 +162,6 @@ public class House {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public StatusHouse getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusHouse status) {
-        this.status = status;
     }
 
     public Date getStartDate() {

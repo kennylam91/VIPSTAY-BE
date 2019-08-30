@@ -54,5 +54,4 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             }
         }
     }
-
 }

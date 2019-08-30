@@ -1,9 +1,6 @@
 package com.fourmen.vipstay.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -13,22 +10,54 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date startDate;
+    private Date checkIn;
 
-    private Date endDate;
+    private Date checkOut;
 
+    @Enumerated(EnumType.STRING)
+    private StatusHouse status;
+
+    @ManyToOne
+    @JoinColumn
     private House house;
 
+    @ManyToOne
+    @JoinColumn
     private User user;
 
     public Order() {
     }
 
-    public Order(Date startDate, Date endDate, House house, User user) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Order(Date startDate, Date endDate, Date checkIn, Date checkOut, StatusHouse status, House house, User user) {
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.status = status;
         this.house = house;
         this.user = user;
+    }
+
+    public Date getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(Date checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public Date getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(Date checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public StatusHouse getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusHouse status) {
+        this.status = status;
     }
 
     public Long getId() {
@@ -37,22 +66,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public House getHouse() {
