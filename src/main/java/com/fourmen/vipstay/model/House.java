@@ -1,6 +1,7 @@
 package com.fourmen.vipstay.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class House {
@@ -39,15 +40,21 @@ public class House {
     @JoinColumn(name = "owner")
     private User user;
 
+    @Column(columnDefinition = "date")
+    private Date startDate;
+
+    @Column(columnDefinition = "date")
+    private Date endDate;
+
 //    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
 //    private List<House_Guest> house_guests;
 
     public House() {
     }
 
-    public House(String houseName, Category category , String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area) {
+    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area, StatusHouse status, User user, Date startDate, Date endDate) {
         this.houseName = houseName;
-        this.category =category ;
+        this.category = category;
         this.address = address;
         this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;
@@ -56,6 +63,10 @@ public class House {
         this.image = image;
         this.rate = rate;
         this.area = area;
+        this.status = status;
+        this.user = user;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Long getId() {
@@ -160,5 +171,21 @@ public class House {
 
     public void setStatus(StatusHouse status) {
         this.status = status;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }
