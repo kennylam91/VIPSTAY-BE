@@ -2,7 +2,9 @@ package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
+import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.repository.HouseRepository;
+import com.fourmen.vipstay.repository.StatusHouseRepository;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ public class HouseController {
     private HouseService houseService;
 
     @Autowired
-    private HouseRepository houseRepository;
+    private StatusHouseRepository statusHouseRepository;
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> listAllHouse() {
@@ -52,6 +54,21 @@ public class HouseController {
 
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get detail house", house),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/statusHouse/{houseId}", method = RequestMethod.GET)
+    private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long houseId){
+        List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
+
+        if (statusHouses.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(true, "Successfully but not found data", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list all house", statusHouses),
                 HttpStatus.OK);
     }
 
