@@ -33,18 +33,9 @@ public class House {
 
     private Long area;
 
-//    @Enumerated(EnumType.STRING)
-//    private StatusHouse status;
-
     @ManyToOne
     @JoinColumn(name = "owner")
     private User user;
-
-    @Column(columnDefinition = "date")
-    private Date startDate;
-
-    @Column(columnDefinition = "date")
-    private Date endDate;
 
 //    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
 //    private List<House_Guest> house_guests;
@@ -52,7 +43,7 @@ public class House {
     public House() {
     }
 
-    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area, StatusHouse status, User user, Date startDate, Date endDate) {
+    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area, User user) {
         this.houseName = houseName;
         this.category = category;
         this.address = address;
@@ -64,8 +55,6 @@ public class House {
         this.rate = rate;
         this.area = area;
         this.user = user;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
     public Long getId() {
@@ -162,21 +151,5 @@ public class House {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 }

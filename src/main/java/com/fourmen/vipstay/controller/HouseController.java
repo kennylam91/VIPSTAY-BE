@@ -58,8 +58,8 @@ public class HouseController {
 //    @GetMapping("/booking/{id}")
 //    public ResponseEntity<StandardResponse> bookingHouse(@PathVariable Long id){
 //        House house=houseService.findById(id);
-//        if (house.getStatus()== StatusHouse.AVAILABLE){
-//            house.setStatus(StatusHouse.BOOKED);
+//        if (house.getStatus()== Status.AVAILABLE){
+//            house.setStatus(Status.BOOKED);
 //            return new ResponseEntity<StandardResponse>(new StandardResponse("Successfully"),HttpStatus.OK);
 //        }else {
 //            return new ResponseEntity<StandardResponse>(new StandardResponse("Unavailable"),HttpStatus.OK);

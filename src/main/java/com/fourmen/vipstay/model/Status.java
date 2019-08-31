@@ -1,6 +1,6 @@
 package com.fourmen.vipstay.model;
 
-public enum StatusHouse {
+public enum Status {
     AVAILABLE,
     BOOKED,
     UNAVAILABLE

@@ -2,7 +2,7 @@ package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.StatusHouse;
+import com.fourmen.vipstay.model.Status;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,6 @@ public class HostController {
     @PostMapping("/houses")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<StandardResponse> createHouse(@RequestBody House house) {
-        house.setStatus(StatusHouse.AVAILABLE);
         this.houseService.createHouse(house);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Post a new house successfully", null),
@@ -73,8 +72,6 @@ public class HostController {
         currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
         currentHouse.setArea(house.getArea());
-        currentHouse.setEndDate(house.getEndDate());
-        currentHouse.setStartDate(house.getStartDate());
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<StandardResponse>(
