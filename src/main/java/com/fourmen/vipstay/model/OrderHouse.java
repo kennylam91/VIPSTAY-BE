@@ -25,13 +25,16 @@ public class OrderHouse {
 
     private Long cost;
 
+    private Date orderTime;
+
     public OrderHouse(){};
 
-    public OrderHouse(Date checkin, Date checkout, Long numberGuest, Long cost) {
+    public OrderHouse(Date checkin, Date checkout, Long numberGuest, Long cost, Date orderTime) {
         this.checkin = checkin;
         this.checkout = checkout;
         this.numberGuest = numberGuest;
         this.cost = cost;
+        this.orderTime = orderTime;
     }
 
     public Long getId() {
@@ -88,5 +91,13 @@ public class OrderHouse {
 
     public void setCost(Long cost) {
         this.cost = cost;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
     }
 }
