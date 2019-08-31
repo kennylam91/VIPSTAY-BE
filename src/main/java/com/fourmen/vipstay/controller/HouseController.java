@@ -57,7 +57,7 @@ public class HouseController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/statusHouse/{houseId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/statusHouses/{houseId}", method = RequestMethod.GET)
     private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long houseId){
         List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
 
@@ -71,6 +71,7 @@ public class HouseController {
                 new StandardResponse(true, "Successfully. Get list all house", statusHouses),
                 HttpStatus.OK);
     }
+
 
 //    @GetMapping("/booking/{id}")
 //    public ResponseEntity<StandardResponse> bookingHouse(@PathVariable Long id){

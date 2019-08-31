@@ -3,6 +3,8 @@ package com.fourmen.vipstay.controller;
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.Status;
+import com.fourmen.vipstay.model.StatusHouse;
+import com.fourmen.vipstay.repository.StatusHouseRepository;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,33 @@ public class HostController {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private StatusHouseRepository statusHouseRepository;
+
+
+    @PutMapping("/statusHouses/{id}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<StandardResponse> editStatusHouse(@RequestBody StatusHouse statusHouse, @PathVariable Long id) {
+        StatusHouse currentStatusHouse = this.statusHouseRepository.findById(id).get();
+
+        if (currentStatusHouse == null) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        //no update id for StatusHouse
+        currentStatusHouse.setStartDate(statusHouse.getStartDate());
+        currentStatusHouse.setEndDate(statusHouse.getEndDate());
+
+
+        this.statusHouseRepository.save(currentStatusHouse);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Update the house successfully", null),
+                HttpStatus.ACCEPTED);
+    }
+
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
