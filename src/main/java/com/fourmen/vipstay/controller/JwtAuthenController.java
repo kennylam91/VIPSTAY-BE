@@ -49,6 +49,7 @@ public class JwtAuthenController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<StandardResponse> createAuthenticationToken(@RequestBody LogInForm loginRequest) throws Exception {
         try {

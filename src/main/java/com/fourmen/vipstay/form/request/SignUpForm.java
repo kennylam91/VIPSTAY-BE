@@ -3,7 +3,7 @@ package com.fourmen.vipstay.form.request;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
+
 
 public class SignUpForm {
 
@@ -57,6 +57,7 @@ public class SignUpForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
 //    public Set<String> getRole() {
 //        return this.role;

@@ -44,12 +44,12 @@ public class HostController {
     }
 
     @PostMapping("/houses")
-    @PreAuthorize("hasRole('HOST')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StandardResponse> createHouse(@RequestBody House house) {
         house.setStatus(StatusHouse.AVAILABLE);
         this.houseService.createHouse(house);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Post a new house successfully", null),
+                new StandardResponse(true, "Post a new house successfully", house),
                 HttpStatus.CREATED);
     }
 

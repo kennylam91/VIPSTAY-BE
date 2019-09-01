@@ -4,9 +4,11 @@ import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.repository.UserRepository;
 import com.fourmen.vipstay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -17,6 +19,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
 
     @Override
     public User findById(Long id) {
@@ -24,17 +41,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createHouse(User user) {
+    public void createUser(User user) {
         userRepository.save(user);
     }
 
     @Override
-    public void updateHouse(User user) {
+    public void updateUser(User user) {
         userRepository.save(user);
     }
 
     @Override
-    public void deleteHouse(Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 }

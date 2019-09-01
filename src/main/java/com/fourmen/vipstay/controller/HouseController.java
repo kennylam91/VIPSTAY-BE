@@ -48,6 +48,21 @@ public class HouseController {
                 new StandardResponse(true, "Successfully. Get detail house", house),
                 HttpStatus.OK);
     }
+
+//    @RequestMapping(value = "/houses/create", method = RequestMethod.POST)
+//    public ResponseEntity<StandardResponse> createHouse(@RequestBody House house) {
+//        this.houseService.createHouse(house);
+//
+//        if (house == null) {
+//            return new ResponseEntity<StandardResponse>(
+//                    new StandardResponse(true, "Successfully but not found data", null),
+//                    HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<StandardResponse>(
+//                new StandardResponse(true, "Successfully. Get detail house", house),
+//                HttpStatus.OK);
+//    }
 //    @GetMapping("/booking/{id}")
 //    public ResponseEntity<StandardResponse> bookingHouse(@PathVariable Long id){
 //        House house=houseService.findById(id);

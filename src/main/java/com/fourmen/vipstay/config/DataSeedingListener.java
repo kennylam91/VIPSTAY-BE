@@ -40,7 +40,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         for (String userStr : userDefaultStr) {
             if (userRepository.findByUsername(userStr) == null) {
                 User user = new User();
-                String email = userStr + "@gmail.com";
+                String email = userStr + "1@gmail.com";
                 user.setEmail(email);
                 user.setName(userStr);
                 user.setUsername(userStr);
