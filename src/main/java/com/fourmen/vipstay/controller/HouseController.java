@@ -10,6 +10,7 @@ import com.fourmen.vipstay.service.StatusHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -69,10 +70,9 @@ public class HouseController {
         }
 
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Successfully. Get list all house", statusHouses),
+                new StandardResponse(true, "Successfully. Get list status houses", statusHouses),
                 HttpStatus.OK);
     }
-
 
 //    @GetMapping("/booking/{id}")
 //    public ResponseEntity<StandardResponse> bookingHouse(@PathVariable Long id){

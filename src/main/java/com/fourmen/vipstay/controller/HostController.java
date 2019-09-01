@@ -28,6 +28,20 @@ public class HostController {
     @Autowired
     private StatusHouseService statusHouseService;
 
+    @RequestMapping(method = RequestMethod.GET, value = "/statusHouses/{id}")
+    public ResponseEntity<StandardResponse> getStatusHouseById(@PathVariable Long id) {
+        StatusHouse statusHouse = this.statusHouseService.findById(id);
+
+        if (statusHouse == null) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true,"Get the status house successfully",statusHouse),
+                HttpStatus.OK);
+    }
 
     @PutMapping("/statusHouses/{id}")
     @PreAuthorize("hasRole('HOST')")
@@ -46,7 +60,7 @@ public class HostController {
 
         this.statusHouseService.save(currentStatusHouse);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Update the house successfully", null),
+                new StandardResponse(true, "Update the status house successfully", null),
                 HttpStatus.ACCEPTED);
     }
 
@@ -55,7 +69,7 @@ public class HostController {
     public ResponseEntity<StandardResponse> createStatusHouse(@RequestBody StatusHouse statusHouse) {
         this.statusHouseService.save(statusHouse);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Post a new house successfully", null),
+                new StandardResponse(true, "Post a new status house successfully", null),
                 HttpStatus.CREATED);
     }
 
@@ -72,7 +86,7 @@ public class HostController {
 
         this.statusHouseService.deleteById(id);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true,"Delete the house successfully",null),
+                new StandardResponse(true,"Delete the status house successfully",null),
                 HttpStatus.OK);
     }
 

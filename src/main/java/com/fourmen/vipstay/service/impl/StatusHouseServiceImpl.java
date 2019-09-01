@@ -18,7 +18,7 @@ public class StatusHouseServiceImpl implements StatusHouseService {
 
     @Override
     public StatusHouse findById(Long id) {
-        return this.statusHouseRepository.getOne(id);
+        return this.statusHouseRepository.findById(id).get();
     }
 
     @Override
