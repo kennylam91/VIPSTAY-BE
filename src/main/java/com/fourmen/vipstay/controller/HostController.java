@@ -7,6 +7,7 @@ import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.repository.StatusHouseRepository;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.HouseService;
+import com.fourmen.vipstay.service.StatusHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,13 @@ public class HostController {
     private HouseService houseService;
 
     @Autowired
-    private StatusHouseRepository statusHouseRepository;
+    private StatusHouseService statusHouseService;
 
 
     @PutMapping("/statusHouses/{id}")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<StandardResponse> editStatusHouse(@RequestBody StatusHouse statusHouse, @PathVariable Long id) {
-        StatusHouse currentStatusHouse = this.statusHouseRepository.findById(id).get();
+        StatusHouse currentStatusHouse = this.statusHouseService.findById(id);
 
         if (currentStatusHouse == null) {
             return new ResponseEntity<StandardResponse>(
@@ -43,13 +44,37 @@ public class HostController {
         currentStatusHouse.setStartDate(statusHouse.getStartDate());
         currentStatusHouse.setEndDate(statusHouse.getEndDate());
 
-
-        this.statusHouseRepository.save(currentStatusHouse);
+        this.statusHouseService.save(currentStatusHouse);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Update the house successfully", null),
                 HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/statusHouses")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<StandardResponse> createStatusHouse(@RequestBody StatusHouse statusHouse) {
+        this.statusHouseService.save(statusHouse);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Post a new house successfully", null),
+                HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/statusHouses/{id}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<StandardResponse> deleteStatusHouse(@PathVariable Long id) {
+        StatusHouse statusHouse = this.statusHouseService.findById(id);
+
+        if (statusHouse == null) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        this.statusHouseService.deleteById(id);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true,"Delete the house successfully",null),
+                HttpStatus.OK);
+    }
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

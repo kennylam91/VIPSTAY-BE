@@ -6,6 +6,7 @@ import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.repository.HouseRepository;
 import com.fourmen.vipstay.repository.StatusHouseRepository;
 import com.fourmen.vipstay.service.HouseService;
+import com.fourmen.vipstay.service.StatusHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class HouseController {
     private HouseService houseService;
 
     @Autowired
-    private StatusHouseRepository statusHouseRepository;
+    private StatusHouseService statusHouseService;
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> listAllHouse() {
@@ -59,7 +60,7 @@ public class HouseController {
 
     @RequestMapping(value = "/statusHouses/{houseId}", method = RequestMethod.GET)
     private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long houseId){
-        List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
+        List<StatusHouse> statusHouses = this.statusHouseService.findAllByHouseId(houseId);
 
         if (statusHouses.isEmpty()) {
             return new ResponseEntity<StandardResponse>(
