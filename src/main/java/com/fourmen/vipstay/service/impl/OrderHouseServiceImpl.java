@@ -1,6 +1,7 @@
 package com.fourmen.vipstay.service.impl;
 
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.repository.OrderHouseRepository;
 import com.fourmen.vipstay.service.OrderHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     @Override
     public List<OrderHouse> findOrderHousesByTenantId(long id) {
         return orderHouseRepository.findOrderHousesByTenantId(id);
+    }
+
+    @Override
+    public List<OrderHouse> findOrderHousesByHouseId(long id) {
+        return orderHouseRepository.findOrderHousesByHouseId(id);
     }
 
     @Override

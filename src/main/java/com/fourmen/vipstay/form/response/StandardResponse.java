@@ -1,6 +1,7 @@
 package com.fourmen.vipstay.form.response;
 
 public class StandardResponse {
+
     private boolean success;
 
     private String message;
@@ -14,6 +15,7 @@ public class StandardResponse {
         this.message = message;
         this.data = data;
     }
+
 
     public boolean isSuccess() {
         return success;

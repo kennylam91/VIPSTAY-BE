@@ -1,6 +1,8 @@
 package com.fourmen.vipstay.repository;
 
+import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.security.service.UserPrinciple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +16,5 @@ public interface OrderHouseRepository extends JpaRepository<OrderHouse, Long> {
     boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(Date checkin, Date checkout);
 
     List<OrderHouse> findOrderHousesByTenantId(long id);
+    List<OrderHouse> findOrderHousesByHouseId(long id);
 }

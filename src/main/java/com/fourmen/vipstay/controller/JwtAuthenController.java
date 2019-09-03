@@ -29,7 +29,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class JwtAuthenController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -48,6 +48,7 @@ public class JwtAuthenController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<StandardResponse> createAuthenticationToken(@RequestBody LogInForm loginRequest) throws Exception {

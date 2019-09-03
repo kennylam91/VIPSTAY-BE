@@ -25,6 +25,7 @@ public class JwtResponse {
         this.token = token;
     }
 
+
     public String getType() {
         return type;
     }

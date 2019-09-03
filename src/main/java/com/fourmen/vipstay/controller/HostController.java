@@ -1,15 +1,9 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
-import com.fourmen.vipstay.model.Category;
-import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.ImageOfHouse;
-import com.fourmen.vipstay.model.Status;
+import com.fourmen.vipstay.model.*;
 import com.fourmen.vipstay.security.service.UserPrinciple;
-import com.fourmen.vipstay.service.CategoryService;
-import com.fourmen.vipstay.service.HouseService;
-import com.fourmen.vipstay.service.ImageHouseService;
-import com.fourmen.vipstay.service.UserService;
+import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +30,19 @@ public class HostController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private OrderHouseService orderHouseService;
+
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     }
 
     @GetMapping("/houses")
-    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<StandardResponse> listHouseOfHost() {
-        long userId = getCurrentUser().getId();
-        List<House> houses = houseService.findByUserId(userId);
+//        long userId = getCurrentUser().getId();
+        List<House> houses = houseService.findByUserId(getCurrentUser().getId());
         if (houses.isEmpty()) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(false, "Fail. Not found data", null),
@@ -67,7 +64,7 @@ public class HostController {
         House house = imageOfHouses.get(0).getHouse();
         house.setStatus(Status.AVAILABLE);
         house.setCategory(category);
-        house.setUser(userService.findByUserName(getCurrentUser().getUsername()));
+        house.setUser(userService.findByUsername(getCurrentUser().getUsername()));
         this.houseService.createHouse(house);
         //save image of house
         for (ImageOfHouse imageOfHouse : imageOfHouses) {
@@ -122,5 +119,11 @@ public class HostController {
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Delete the house successfully", null),
                 HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/house/orderOfUser/{id}",method = RequestMethod.GET)
+    public  ResponseEntity<StandardResponse> getHouseOrderByUser(@PathVariable("id") Long id){
+        List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true,"list all order",orderHouses),HttpStatus.OK);
     }
 }
