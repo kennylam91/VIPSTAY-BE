@@ -1,7 +1,9 @@
 package com.fourmen.vipstay.service.impl;
 
 import com.fourmen.vipstay.model.House;
+import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.repository.HouseRepository;
+import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

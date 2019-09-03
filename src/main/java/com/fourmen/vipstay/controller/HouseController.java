@@ -92,12 +92,20 @@ public class HouseController {
         }
         House house = houseService.findById(id);
         orderHouse.setHouse(house);
-        User tenant = userService.findUserById(getCurrentUser().getId());
+        User tenant = userService.findById(getCurrentUser().getId());
         orderHouse.setTenant(tenant);
         orderHouseService.createOrderHouse(orderHouse);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Booking house successfully", null),
                 HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/house/all-user-order",method = RequestMethod.GET)
+    public  ResponseEntity<StandardResponse> allUserOder(){
+        List<OrderHouse> orderHouses = orderHouseService.findAll();
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true,"list all order",orderHouses),HttpStatus.OK);
+    }
+
+
 }
 

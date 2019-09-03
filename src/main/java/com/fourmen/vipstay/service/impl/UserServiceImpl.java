@@ -1,5 +1,6 @@
 package com.fourmen.vipstay.service.impl;
 
+import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.repository.UserRepository;
 import com.fourmen.vipstay.service.UserService;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
 
     @Override
     public User findByUsername(String username) {

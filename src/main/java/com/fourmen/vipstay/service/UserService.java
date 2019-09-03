@@ -1,5 +1,6 @@
 package com.fourmen.vipstay.service;
 
+import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.User;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.List;
 @Service
 public interface UserService {
     List<User> findAll();
+
 
     User findByUsername(String username);
 

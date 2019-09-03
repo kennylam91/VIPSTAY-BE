@@ -1,6 +1,7 @@
 package com.fourmen.vipstay.service;
 
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,6 +12,8 @@ public interface OrderHouseService {
     List<OrderHouse> findAll();
 
     List<OrderHouse> findOrderHousesByTenantId(long id);
+
+    List<OrderHouse> findOrderHousesByHouseId(long id);
 
     OrderHouse findById(Long id);
 

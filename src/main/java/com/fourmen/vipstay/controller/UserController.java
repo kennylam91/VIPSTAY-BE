@@ -2,6 +2,7 @@ package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.security.jwt.JwtTokenUtil;
+import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +33,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private UserPrinciple getCurrentUser() {
+        return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    }
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUser() {
         List<User> users = this.userService.findAll();
-
         if (users.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
         }
