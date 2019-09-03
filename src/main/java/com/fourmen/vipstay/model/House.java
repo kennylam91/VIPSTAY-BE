@@ -2,6 +2,7 @@ package com.fourmen.vipstay.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.sql.Date;
 
 @Entity
 public class House {
@@ -34,11 +35,8 @@ public class House {
 
     private Long area;
 
-//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-//    private List<ImageHouse> imageHouses = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusHouse status;
 
     @ManyToOne
     @JoinColumn(name = "host_id")

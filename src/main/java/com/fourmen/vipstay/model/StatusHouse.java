@@ -1,25 +1,31 @@
 package com.fourmen.vipstay.model;
 
+
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 public class StatusHouse {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn
-    private House house;
+    private  House house;
 
+    @Column(columnDefinition = "date")
     private Date startDate;
 
+    @Column(columnDefinition = "date")
     private Date endDate;
 
-    public StatusHouse(){};
+    public StatusHouse() {
+    }
 
-    public StatusHouse(Date startDate, Date endDate) {
+    public StatusHouse(House house, Date startDate, Date endDate) {
+        this.house = house;
         this.startDate = startDate;
         this.endDate = endDate;
     }

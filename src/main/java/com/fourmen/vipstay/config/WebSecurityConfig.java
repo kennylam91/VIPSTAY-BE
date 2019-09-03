@@ -19,6 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.server.ServerWebExchange;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -61,15 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/login","/signup","/api/host/signup",
-                "/api/houses","/api/houses/*","/api/user",
-                "/api/user/update/*","/api/user/*",
-                "/api/host/house/orderOfUser",
-                "/api/host/house")
-                .permitAll()
-                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .authorizeRequests().antMatchers("/api/login", "/api/signup", "/api/host/signup", "/api/houses", "/api/houses/*", "/api/statusHouses/*").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // all other requests need to be authenticated
-                        .anyRequest().authenticated().and().
+                .anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

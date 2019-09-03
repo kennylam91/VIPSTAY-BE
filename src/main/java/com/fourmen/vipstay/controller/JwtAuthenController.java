@@ -28,8 +28,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@CrossOrigin
-//@RequestMapping("/api")
+@CrossOrigin(origins = "*")
+@RequestMapping("/api")
 public class JwtAuthenController {
     @Autowired
     private AuthenticationManager authenticationManager;
