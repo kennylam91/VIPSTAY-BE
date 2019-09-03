@@ -1,10 +1,15 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
+import com.fourmen.vipstay.model.Category;
 import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.StatusHouse;
+import com.fourmen.vipstay.model.ImageOfHouse;
+import com.fourmen.vipstay.model.Status;
 import com.fourmen.vipstay.security.service.UserPrinciple;
+import com.fourmen.vipstay.service.CategoryService;
 import com.fourmen.vipstay.service.HouseService;
+import com.fourmen.vipstay.service.ImageHouseService;
+import com.fourmen.vipstay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +26,15 @@ public class HostController {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ImageHouseService imageHouseService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,12 +58,24 @@ public class HostController {
     }
 
     @PostMapping("/houses")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<StandardResponse> createHouse(@RequestBody House house) {
-        house.setStatus(StatusHouse.AVAILABLE);
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<StandardResponse> createHouse(@RequestBody List<ImageOfHouse> imageOfHouses) {
+        //find category
+        String typeName = imageOfHouses.get(0).getHouse().getCategory().getName();
+        Category category = categoryService.findByName(typeName);
+        //save house
+        House house = imageOfHouses.get(0).getHouse();
+        house.setStatus(Status.AVAILABLE);
+        house.setCategory(category);
+        house.setUser(userService.findByUserName(getCurrentUser().getUsername()));
         this.houseService.createHouse(house);
+        //save image of house
+        for (ImageOfHouse imageOfHouse : imageOfHouses) {
+            imageOfHouse.setHouse(house);
+            this.imageHouseService.createImageHouse(imageOfHouse);
+        }
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Post a new house successfully", house),
+                new StandardResponse(true, "Post a new house successfully", null),
                 HttpStatus.CREATED);
     }
 
@@ -71,9 +97,9 @@ public class HostController {
         currentHouse.setBathroomNumber(house.getBathroomNumber());
         currentHouse.setDescription(house.getDescription());
         currentHouse.setPrice(house.getPrice());
-        currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
         currentHouse.setArea(house.getArea());
+//        currentHouse.setImages(house.getImageHouses());
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<StandardResponse>(
@@ -94,7 +120,7 @@ public class HostController {
 
         this.houseService.deleteHouse(id);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true,"Delete the house successfully",null),
+                new StandardResponse(true, "Delete the house successfully", null),
                 HttpStatus.OK);
     }
 }

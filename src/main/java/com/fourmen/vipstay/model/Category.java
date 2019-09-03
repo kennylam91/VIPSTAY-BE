@@ -19,6 +19,10 @@ public class Category {
     public Category() {
     }
 
+    public Category(@NotBlank String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

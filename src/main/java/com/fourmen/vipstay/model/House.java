@@ -1,8 +1,7 @@
 package com.fourmen.vipstay.model;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class House {
@@ -13,10 +12,12 @@ public class House {
 
     private String houseName;
 
-    @Ignore
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
+
+    @OneToMany(targetEntity = ImageOfHouse.class)
+    private List<String> imageUrls;
 
     private String address;
 
@@ -29,39 +30,35 @@ public class House {
 
     private Long price;
 
-    private String image;
-
     private Long rate;
 
     private Long area;
 
+//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+//    private List<ImageHouse> imageHouses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private StatusHouse status;
-
-
+    private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "host_id")
     private User user;
-
-//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-//    private List<House_Guest> house_guests;
 
     public House() {
     }
 
-    public House(String houseName, Category category , String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, String image, Long rate, Long area) {
+    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, Status status, User user) {
         this.houseName = houseName;
-        this.category =category ;
+        this.category = category;
         this.address = address;
         this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;
         this.description = description;
         this.price = price;
-        this.image = image;
         this.rate = rate;
         this.area = area;
+        this.status = status;
+        this.user = user;
     }
 
     public Long getId() {
@@ -128,14 +125,6 @@ public class House {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Long getRate() {
         return rate;
     }
@@ -152,19 +141,28 @@ public class House {
         this.area = area;
     }
 
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public StatusHouse getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusHouse status) {
-        this.status = status;
     }
 }
