@@ -1,10 +1,7 @@
 package com.fourmen.vipstay.config;
 
 import com.fourmen.vipstay.model.*;
-import com.fourmen.vipstay.repository.HouseRepository;
-import com.fourmen.vipstay.repository.ImageHouseRepository;
-import com.fourmen.vipstay.repository.RoleRepository;
-import com.fourmen.vipstay.repository.UserRepository;
+import com.fourmen.vipstay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -31,6 +28,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
     @Autowired
     private ImageHouseRepository imageHouseRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
@@ -77,6 +77,14 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 userList[stt] = user;
                 stt++;
                 userRepository.save(user);
+            }
+        }
+
+        //set default category data
+        String[] categories=new String[]{"House","Villa","Resort","Hotel"};
+        for (String category : categories) {
+            if (categoryRepository.findByName(category) == null) {
+                categoryRepository.save(new Category(category));
             }
         }
 
