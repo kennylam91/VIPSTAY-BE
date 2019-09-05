@@ -1,8 +1,11 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
+import com.fourmen.vipstay.model.Comment;
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.security.service.UserPrinciple;
+import com.fourmen.vipstay.service.CommentService;
 import com.fourmen.vipstay.service.HouseService;
 import com.fourmen.vipstay.service.OrderHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class GuestController {
 
     @Autowired
     private OrderHouseService orderHouseService;
+
+    @Autowired
+    private CommentService commentService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,7 +64,6 @@ public class GuestController {
                     new StandardResponse(false, "Fail. Not found data", null),
                     HttpStatus.OK);
         }
-
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get detail order that was booked by guest", orderHouse),
                 HttpStatus.OK);
@@ -71,6 +76,31 @@ public class GuestController {
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Hủy đơn hàng thành công", null),
                 HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comments/{houseId}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> listCommentsbyHouseId(@PathVariable Long houseId) {
+        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
+
+        if (comments.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", comments),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/comments")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> createComment(@RequestBody Comment comment) {
+        this.commentService.createComment(comment);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Post a new commnet successfully", null),
+                HttpStatus.CREATED);
     }
 }
 
