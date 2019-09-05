@@ -1,7 +1,6 @@
 package com.fourmen.vipstay.service.impl;
 
 import com.fourmen.vipstay.model.OrderHouse;
-import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.repository.OrderHouseRepository;
 import com.fourmen.vipstay.service.OrderHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,12 @@ public class OrderHouseServiceImpl implements OrderHouseService {
 
     @Override
     public boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(Date checkin, Date checkout) {
-        return orderHouseRepository.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(checkin,checkout);
+        return orderHouseRepository.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(checkin, checkout);
     }
 
     @Override
     public boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(Date checkin, Date checkout) {
-        return orderHouseRepository.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(checkin,checkout);
+        return orderHouseRepository.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(checkin, checkout);
     }
 
     @Override
@@ -58,6 +57,6 @@ public class OrderHouseServiceImpl implements OrderHouseService {
 
     @Override
     public void deleteOrderHouse(Long id) {
-
+        orderHouseRepository.deleteById(id);
     }
 }

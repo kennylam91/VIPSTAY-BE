@@ -63,5 +63,14 @@ public class GuestController {
                 new StandardResponse(true, "Successfully. Get detail order that was booked by guest", orderHouse),
                 HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    public ResponseEntity<StandardResponse> deleteOrderHouse(@PathVariable Long id) {
+        this.orderHouseService.deleteOrderHouse(id);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Hủy đơn hàng thành công", null),
+                HttpStatus.OK);
+    }
 }
 

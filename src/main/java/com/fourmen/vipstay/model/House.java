@@ -2,7 +2,6 @@ package com.fourmen.vipstay.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.sql.Date;
 
 @Entity
 public class House {
@@ -36,7 +35,7 @@ public class House {
     private Long area;
 
     @Enumerated(EnumType.STRING)
-    private StatusHouse status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "host_id")

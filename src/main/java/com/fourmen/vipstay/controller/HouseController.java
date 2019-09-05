@@ -3,24 +3,16 @@ package com.fourmen.vipstay.controller;
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.security.service.UserPrinciple;
-import com.fourmen.vipstay.model.StatusHouse;
-import com.fourmen.vipstay.repository.HouseRepository;
-import com.fourmen.vipstay.repository.StatusHouseRepository;
-import com.fourmen.vipstay.service.HouseService;
-import com.fourmen.vipstay.service.ImageHouseService;
-import com.fourmen.vipstay.service.OrderHouseService;
-import com.fourmen.vipstay.service.UserService;
-import com.fourmen.vipstay.service.StatusHouseService;
+import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 
 //need'nt login
@@ -97,7 +89,7 @@ public class HouseController {
                         orderHouse.getCheckin(),orderHouse.getCheckout());
         if (isBooked){
             return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false, "This house has booked in that time. Please select checkin and checkout again", null),
+                    new StandardResponse(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),
                     HttpStatus.OK);
         }
         House house = houseService.findById(id);
@@ -106,7 +98,7 @@ public class HouseController {
         orderHouse.setTenant(tenant);
         orderHouseService.createOrderHouse(orderHouse);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Booking house successfully", null),
+                new StandardResponse(true, "Đặt nhà thành công", null),
                 HttpStatus.CREATED);
     }
 

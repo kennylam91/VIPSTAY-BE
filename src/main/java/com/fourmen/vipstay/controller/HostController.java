@@ -2,7 +2,6 @@ package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.*;
-import com.fourmen.vipstay.repository.StatusHouseRepository;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +159,6 @@ public class HostController {
         currentHouse.setBathroomNumber(house.getBathroomNumber());
         currentHouse.setDescription(house.getDescription());
         currentHouse.setPrice(house.getPrice());
-        currentHouse.setImage(house.getImage());
         currentHouse.setRate(house.getRate());
         currentHouse.setArea(house.getArea());
 

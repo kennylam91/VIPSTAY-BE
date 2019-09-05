@@ -108,13 +108,13 @@ public class JwtAuthenController {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false,"Fail -> Username is already token!",null),
+                    new StandardResponse(false,"Fail -> Username already exists!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false,"Fail -> Email is already in use!",null),
+                    new StandardResponse(false,"Fail -> Email already uses!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
