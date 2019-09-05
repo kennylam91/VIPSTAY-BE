@@ -1,6 +1,5 @@
 package com.fourmen.vipstay.model;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
