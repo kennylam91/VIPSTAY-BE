@@ -2,7 +2,7 @@ package com.fourmen.vipstay.model;
 
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class StatusHouse {
@@ -15,10 +15,8 @@ public class StatusHouse {
     @JoinColumn
     private  House house;
 
-    @Column(columnDefinition = "date")
     private Date startDate;
 
-    @Column(columnDefinition = "date")
     private Date endDate;
 
     public StatusHouse() {
