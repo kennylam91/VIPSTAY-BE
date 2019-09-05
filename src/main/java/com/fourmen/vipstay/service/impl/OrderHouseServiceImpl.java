@@ -35,13 +35,23 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     }
 
     @Override
-    public boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(Date checkin, Date checkout) {
-        return orderHouseRepository.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(checkin, checkout);
+    public boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqualAndHouseId(Date checkin, Date checkout, Long houseId) {
+        return orderHouseRepository.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqualAndHouseId(checkin, checkout, houseId);
     }
 
     @Override
-    public boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(Date checkin, Date checkout) {
-        return orderHouseRepository.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(checkin, checkout);
+    public boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(Date checkin, Date checkout, Long houseId) {
+        return orderHouseRepository.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(checkin, checkout, houseId);
+    }
+
+    @Override
+    public boolean existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(Date checkin, Date checkout, Long houseId) {
+        return orderHouseRepository.existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(checkin, checkout, houseId);
+    }
+
+    @Override
+    public boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(Date checkin, Date checkout, Long houseId) {
+        return orderHouseRepository.existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(checkin, checkout, houseId);
     }
 
     @Override

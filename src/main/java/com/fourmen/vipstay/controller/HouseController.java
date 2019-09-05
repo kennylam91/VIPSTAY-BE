@@ -81,13 +81,16 @@ public class HouseController {
 
     @RequestMapping(value = "/houses/{id}/booking", method = RequestMethod.POST)
     public ResponseEntity<StandardResponse> bookingHouse(@PathVariable Long id, @RequestBody OrderHouse orderHouse) {
-        boolean isBooked=orderHouseService
-                .existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(
-                        orderHouse.getCheckin(),orderHouse.getCheckout())
-                || orderHouseService.
-                existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(
-                        orderHouse.getCheckin(),orderHouse.getCheckout());
-        if (isBooked){
+        boolean isBooked =
+                orderHouseService.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id);
+        if (isBooked) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),
                     HttpStatus.OK);
@@ -102,16 +105,15 @@ public class HouseController {
                 HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/house/all-user-order",method = RequestMethod.GET)
-    public  ResponseEntity<StandardResponse> allUserOder(){
+    @RequestMapping(value = "/house/all-user-order", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> allUserOder() {
         List<OrderHouse> orderHouses = orderHouseService.findAll();
-        return new ResponseEntity<StandardResponse>(new StandardResponse(true,"list all order",orderHouses),HttpStatus.OK);
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "list all order", orderHouses), HttpStatus.OK);
     }
 
 
-
     @RequestMapping(value = "/statusHouses/{houseId}", method = RequestMethod.GET)
-    private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long houseId){
+    private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long houseId) {
         List<StatusHouse> statusHouses = this.statusHouseService.findAllByHouseId(houseId);
 
         if (statusHouses.isEmpty()) {

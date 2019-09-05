@@ -1,7 +1,6 @@
 package com.fourmen.vipstay.service;
 
 import com.fourmen.vipstay.model.OrderHouse;
-import com.fourmen.vipstay.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,9 +16,14 @@ public interface OrderHouseService {
 
     OrderHouse findById(Long id);
 
-    boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqual(Date checkin, Date checkout);
+    boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqualAndHouseId(Date checkin, Date checkout,Long houseId);
 
-    boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqual(Date checkin, Date checkout);
+    boolean existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(Date checkin, Date checkout, Long houseId);
+
+    boolean existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(Date checkin, Date checkout,Long houseId);
+
+    boolean existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(Date checkin, Date checkout,Long houseId);
+
 
     void createOrderHouse(OrderHouse house);
 

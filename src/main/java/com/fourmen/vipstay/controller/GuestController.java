@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 //must login with guest role
@@ -67,6 +68,16 @@ public class GuestController {
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
     public ResponseEntity<StandardResponse> deleteOrderHouse(@PathVariable Long id) {
+        OrderHouse orderHouse = this.orderHouseService.findById(id);
+        Date checkin = orderHouse.getCheckin();
+        Date now = new Date();
+        int day = 86400 * 1000;
+        double nowToCheckinByDay=(checkin.getTime() - now.getTime())/day;
+        if (nowToCheckinByDay<1.0) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Không thể hủy đơn hàng", null),
+                    HttpStatus.OK);
+        }
         this.orderHouseService.deleteOrderHouse(id);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Hủy đơn hàng thành công", null),
