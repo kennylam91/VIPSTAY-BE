@@ -26,4 +26,12 @@ public interface OrderHouseService {
     void updateOrderHouse(OrderHouse house);
 
     void deleteOrderHouse(Long id);
+
+    boolean existsStatusHouseByStartDateGreaterThanEqualAndStartDateLessThanEqual(Date checkin, Date checkout, Long houseId);
+
+    boolean existsStatusHouseByEndDateGreaterThanEqualAndEndDateLessThanEqual(Date checkin, Date checkout, Long houseId);
+
+    boolean existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date checkin, Date checkou, Long houseId);
+
+    boolean existsStatusHouseByStartDateGreaterThanEqualAndEndDateLessThanEqual(Date checkin, Date checkout, Long houseId);
 }
