@@ -3,11 +3,13 @@ package com.fourmen.vipstay.controller;
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.Comment;
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.Rate;
 import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.CommentService;
 import com.fourmen.vipstay.service.HouseService;
 import com.fourmen.vipstay.service.OrderHouseService;
+import com.fourmen.vipstay.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,9 @@ public class GuestController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private RateService rateService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -99,7 +104,37 @@ public class GuestController {
     public ResponseEntity<StandardResponse> createComment(@RequestBody Comment comment) {
         this.commentService.createComment(comment);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Post a new commnet successfully", null),
+                new StandardResponse(true, "Post a new commnent successfully", null),
+                HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/rates/{houseId}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> listRatesbyHouseId(@PathVariable Long houseId) {
+        List<Rate> rates = this.rateService.findAllByHouseId(houseId);
+
+        if (rates.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", rates),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/rates")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> createRate(@RequestBody Rate rate) {
+        if (this.rateService.existsRateByUserId(rate.getUser().getId())){
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(true, "Bạn chỉ được đánh giá một lần", null),
+                    HttpStatus.CREATED);
+        }
+        this.rateService.createRate(rate);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Đánh giá thành công", null),
                 HttpStatus.CREATED);
     }
 }
