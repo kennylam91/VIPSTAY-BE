@@ -83,45 +83,13 @@ public class GuestController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/comments/{houseId}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST')")
-    public ResponseEntity<StandardResponse> listCommentsbyHouseId(@PathVariable Long houseId) {
-        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
-
-        if (comments.isEmpty()) {
-            return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false, "Fail. Not found data", null),
-                    HttpStatus.OK);
-        }
-
-        return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", comments),
-                HttpStatus.OK);
-    }
-
     @PostMapping("/comments")
     @PreAuthorize("hasRole('GUEST')")
     public ResponseEntity<StandardResponse> createComment(@RequestBody Comment comment) {
         this.commentService.createComment(comment);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Post a new commnent successfully", null),
+                new StandardResponse(true, "Phản hỏi dịch vụ thành công", null),
                 HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/rates/{houseId}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST')")
-    public ResponseEntity<StandardResponse> listRatesbyHouseId(@PathVariable Long houseId) {
-        List<Rate> rates = this.rateService.findAllByHouseId(houseId);
-
-        if (rates.isEmpty()) {
-            return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false, "Fail. Not found data", null),
-                    HttpStatus.OK);
-        }
-
-        return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", rates),
-                HttpStatus.OK);
     }
 
     @PostMapping("/rates")
