@@ -54,13 +54,14 @@ public class HouseController {
         for (House house : houses) {
             List<String> listImageUrlOfHouse = imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
             house.setImageUrls(listImageUrlOfHouse);
+            List<Long> orderHouseIds = orderHouseService.getOrderIdsByHouseId(house.getId());
+            house.setOrderHouseIds(orderHouseIds);
         }
 
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get list all house", houses),
                 HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> getHouse(@PathVariable Long id) {
@@ -89,7 +90,11 @@ public class HouseController {
                         || orderHouseService.existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(
                         orderHouse.getCheckin(), orderHouse.getCheckout(), id)
                         || orderHouseService.existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(
-                        orderHouse.getCheckin(), orderHouse.getCheckout(), id);
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByEndDateGreaterThanEqualAndEndDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateGreaterThanEqualAndEndDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateGreaterThanEqualAndStartDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id);
         if (isBooked) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),

@@ -1,8 +1,6 @@
 package com.fourmen.vipstay.service;
 
 import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.User;
-import com.fourmen.vipstay.security.service.UserPrinciple;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +9,6 @@ import java.util.List;
 public interface HouseService {
 
     List<House> findAll();
-
 
     List<House> findByUserId(long userId);
 

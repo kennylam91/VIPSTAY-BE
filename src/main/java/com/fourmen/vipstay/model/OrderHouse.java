@@ -10,7 +10,7 @@ public class OrderHouse {
     private Long id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "house_id")
     private House house;
 
     @ManyToOne

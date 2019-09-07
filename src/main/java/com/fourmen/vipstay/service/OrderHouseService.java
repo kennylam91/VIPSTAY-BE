@@ -12,7 +12,7 @@ public interface OrderHouseService {
 
     List<OrderHouse> findOrderHousesByTenantId(long id);
 
-    List<OrderHouse> findOrderHousesByHouseId(long id);
+    List<Long> getOrderIdsByHouseId(long id);
 
     OrderHouse findById(Long id);
 

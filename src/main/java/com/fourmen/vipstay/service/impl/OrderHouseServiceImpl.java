@@ -8,6 +8,7 @@ import com.fourmen.vipstay.service.OrderHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,8 +31,13 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     }
 
     @Override
-    public List<OrderHouse> findOrderHousesByHouseId(long id) {
-        return orderHouseRepository.findOrderHousesByHouseId(id);
+    public List<Long> getOrderIdsByHouseId(long id) {
+        List<Long> listOrderId=new ArrayList<>();
+        List<OrderHouse> orderHouses=orderHouseRepository.findOrderHousesByHouseId(id);
+        for (OrderHouse orderHouse:orderHouses){
+            listOrderId.add(orderHouse.getId());
+        }
+        return listOrderId;
     }
 
     @Override
@@ -79,7 +85,9 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     public boolean existsStatusHouseByStartDateGreaterThanEqualAndStartDateLessThanEqual(Date checkin, Date checkout, Long houseId) {
         List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
         for (Integer i = 0; i < statusHouses.size(); i++) {
-            if (statusHouses.get(i).getStartDate().after(checkin) && statusHouses.get(i).getEndDate().before(checkout)) {
+            boolean startIn = statusHouses.get(i).getStartDate().after(checkin);
+            boolean startOut = statusHouses.get(i).getStartDate().before(checkout);
+            if (startIn && startOut) {
                 return true;
             }
             ;
@@ -91,7 +99,9 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     public boolean existsStatusHouseByEndDateGreaterThanEqualAndEndDateLessThanEqual(Date checkin, Date checkout, Long houseId) {
         List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
         for (Integer i = 0; i < statusHouses.size(); i++) {
-            if (statusHouses.get(i).getEndDate().before(checkin) && statusHouses.get(i).getEndDate().after(checkout)) {
+            boolean endIn = statusHouses.get(i).getEndDate().after(checkin);
+            boolean endOut = statusHouses.get(i).getEndDate().before(checkout);
+            if (endIn && endOut) {
                 return true;
             }
         }
@@ -102,7 +112,9 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     public boolean existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date checkin, Date checkout, Long houseId) {
         List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
         for (Integer i = 0; i < statusHouses.size(); i++) {
-            if(statusHouses.get(i).getStartDate().before(checkin) && statusHouses.get(i).getEndDate().after(checkout)){
+            boolean startin = statusHouses.get(i).getStartDate().before(checkin);
+            boolean endOut = statusHouses.get(i).getEndDate().after(checkout);
+            if (startin && endOut) {
                 return true;
             }
         }
@@ -113,7 +125,9 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     public boolean existsStatusHouseByStartDateGreaterThanEqualAndEndDateLessThanEqual(Date checkin, Date checkout, Long houseId) {
         List<StatusHouse> statusHouses = this.statusHouseRepository.findAllByHouseId(houseId);
         for (Integer i = 0; i < statusHouses.size(); i++) {
-            if(statusHouses.get(i).getStartDate().after(checkin) && statusHouses.get(i).getEndDate().before(checkout)){
+            boolean startIn = statusHouses.get(i).getStartDate().after(checkin);
+            boolean endOut = statusHouses.get(i).getEndDate().before(checkout);
+            if (startIn && endOut) {
                 return true;
             }
         }

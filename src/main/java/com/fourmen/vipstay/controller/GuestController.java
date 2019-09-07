@@ -57,7 +57,7 @@ public class GuestController {
         if (orderHouse == null) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(false, "Fail. Not found data", null),
-                    HttpStatus.OK);
+                    HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<StandardResponse>(
@@ -72,8 +72,8 @@ public class GuestController {
         Date checkin = orderHouse.getCheckin();
         Date now = new Date();
         int day = 86400 * 1000;
-        double nowToCheckinByDay=(checkin.getTime() - now.getTime())/day;
-        if (nowToCheckinByDay<1.0) {
+        double nowToCheckinByDay = (double) (checkin.getTime() - now.getTime()) / day;
+        if (nowToCheckinByDay < 1.0) {
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(false, "Không thể hủy đơn hàng", null),
                     HttpStatus.OK);

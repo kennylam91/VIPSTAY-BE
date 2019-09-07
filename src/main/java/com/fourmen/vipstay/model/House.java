@@ -19,6 +19,9 @@ public class House {
     @OneToMany(targetEntity = ImageOfHouse.class)
     private List<String> imageUrls;
 
+    @OneToMany(targetEntity = OrderHouse.class)
+    private List<Long> orderHouseIds;
+
     private String address;
 
     private Long bedroomNumber;
@@ -161,5 +164,13 @@ public class House {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Long> getOrderHouseIds() {
+        return orderHouseIds;
+    }
+
+    public void setOrderHouseIds(List<Long> orderHouseIds) {
+        this.orderHouseIds = orderHouseIds;
     }
 }
