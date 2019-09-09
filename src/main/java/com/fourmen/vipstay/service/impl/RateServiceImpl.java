@@ -25,7 +25,7 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public boolean existsRateByUserId(Long id) {
-        return this.rateRepository.existsRateByUserId(id);
+    public boolean existsRateByUserIdAndHouseId(Long id, Long houseId) {
+        return this.rateRepository.existsRateByUserIdAndHouseId(id, houseId);
     }
 }

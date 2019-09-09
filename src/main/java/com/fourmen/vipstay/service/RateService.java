@@ -12,5 +12,5 @@ public interface RateService {
 
     void createRate(Rate rate);
 
-    boolean existsRateByUserId (Long id);
+    boolean existsRateByUserIdAndHouseId (Long id, Long houseId);
 }

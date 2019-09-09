@@ -6,10 +6,7 @@ import com.fourmen.vipstay.model.OrderHouse;
 import com.fourmen.vipstay.model.Rate;
 import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.security.service.UserPrinciple;
-import com.fourmen.vipstay.service.CommentService;
-import com.fourmen.vipstay.service.HouseService;
-import com.fourmen.vipstay.service.OrderHouseService;
-import com.fourmen.vipstay.service.RateService;
+import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +33,9 @@ public class GuestController {
 
     @Autowired
     private RateService rateService;
+
+    @Autowired
+    private UserService userService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -86,6 +86,7 @@ public class GuestController {
     @PostMapping("/comments")
     @PreAuthorize("hasRole('GUEST')")
     public ResponseEntity<StandardResponse> createComment(@RequestBody Comment comment) {
+        comment.setUser(this.userService.findById(getCurrentUser().getId()));
         this.commentService.createComment(comment);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Phản hỏi dịch vụ thành công", null),
@@ -95,7 +96,7 @@ public class GuestController {
     @PostMapping("/rates")
     @PreAuthorize("hasRole('GUEST')")
     public ResponseEntity<StandardResponse> createRate(@RequestBody Rate rate) {
-        if (this.rateService.existsRateByUserId(rate.getUser().getId())){
+        if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(true, "Bạn chỉ được đánh giá một lần", null),
                     HttpStatus.CREATED);
