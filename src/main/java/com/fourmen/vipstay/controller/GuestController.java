@@ -96,6 +96,7 @@ public class GuestController {
     @PostMapping("/rates")
     @PreAuthorize("hasRole('GUEST')")
     public ResponseEntity<StandardResponse> createRate(@RequestBody Rate rate) {
+        rate.setUser(this.userService.findById(getCurrentUser().getId()));
         if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
             return new ResponseEntity<StandardResponse>(
                     new StandardResponse(true, "Bạn chỉ được đánh giá một lần", null),
