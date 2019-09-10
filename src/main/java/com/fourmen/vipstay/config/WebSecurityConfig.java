@@ -17,15 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.server.ServerWebExchange;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 
 //This class extends the WebSecurityConfigurerAdapter
 // is a convenience class that allows customization
@@ -33,6 +24,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenEntryPoint jwtAuthenticationEntryPoint;
@@ -64,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
+                .cors().and()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/api/login", "/api/signup", "/api/host/signup", "/api/houses", "/api/houses/*", "/api/statusHouses/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -77,18 +70,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //CORN
-        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
-
-            @Override
-            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedHeaders(Collections.singletonList("*"));
-                config.setAllowedMethods(Collections.singletonList("*"));
-                config.addAllowedOrigin("*");
-                config.setAllowCredentials(true);
-                return config;
-            }
-        });
+//        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
+//
+//            @Override
+//            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+//                CorsConfiguration config = new CorsConfiguration();
+//                config.setAllowedHeaders(Collections.singletonList("*"));
+//                config.setAllowedMethods(Collections.singletonList("*"));
+//                config.addAllowedOrigin("*");
+//                config.setAllowCredentials(true);
+//                return config;
+//            }
+//        });
 
     }
 

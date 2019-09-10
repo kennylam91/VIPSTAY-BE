@@ -65,8 +65,10 @@ public class JwtAuthenController {
                     new StandardResponse(true,"Generate token successfully",new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (DisabledException e) {
+            e.printStackTrace();
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+            e.printStackTrace();
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
