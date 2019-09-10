@@ -107,5 +107,16 @@ public class GuestController {
                 new StandardResponse(true, "Đánh giá thành công", null),
                 HttpStatus.CREATED);
     }
+
+    @GetMapping("/rates/{houseId}")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> getRateByUserIdAndHouseId(@PathVariable Long houseId){
+        Rate rate = this.rateService.findByUserIdAndHouseId(getCurrentUser().getId(), houseId);
+        if(rate == null){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(false, "Bạn chưa đánh giá cho dịch vụ này!", null), HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "Lấy đánh gía thành công", rate), HttpStatus.OK);
+    }
 }
 

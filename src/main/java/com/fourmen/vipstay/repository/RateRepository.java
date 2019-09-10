@@ -12,4 +12,6 @@ public interface RateRepository extends JpaRepository<Rate, Long> {
     List<Rate> findAllByHouseId(Long id);
 
     boolean existsRateByUserIdAndHouseId (Long id, Long houseId);
+
+    Rate findByUserIdAndHouseId(Long userId, Long houseId);
 }

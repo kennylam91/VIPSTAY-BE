@@ -28,4 +28,9 @@ public class RateServiceImpl implements RateService {
     public boolean existsRateByUserIdAndHouseId(Long id, Long houseId) {
         return this.rateRepository.existsRateByUserIdAndHouseId(id, houseId);
     }
+
+    @Override
+    public Rate findByUserIdAndHouseId(Long userId, Long houseId) {
+        return rateRepository.findByUserIdAndHouseId(userId, houseId);
+    }
 }
