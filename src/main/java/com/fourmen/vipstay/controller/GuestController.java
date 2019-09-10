@@ -2,10 +2,12 @@ package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.House;
+import com.fourmen.vipstay.model.Comment;
 import com.fourmen.vipstay.model.OrderHouse;
+import com.fourmen.vipstay.model.Rate;
+import com.fourmen.vipstay.model.StatusHouse;
 import com.fourmen.vipstay.security.service.UserPrinciple;
-import com.fourmen.vipstay.service.HouseService;
-import com.fourmen.vipstay.service.OrderHouseService;
+import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +30,15 @@ public class GuestController {
 
     @Autowired
     private OrderHouseService orderHouseService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private RateService rateService;
+
+    @Autowired
+    private UserService userService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -78,7 +89,6 @@ public class GuestController {
                     new StandardResponse(false, "Fail. Not found data", null),
                     HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get detail order that was booked by guest", orderHouse),
                 HttpStatus.OK);
@@ -101,6 +111,42 @@ public class GuestController {
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Hủy đơn hàng thành công", null),
                 HttpStatus.OK);
+    }
+
+    @PostMapping("/comments")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> createComment(@RequestBody Comment comment) {
+        comment.setUser(this.userService.findById(getCurrentUser().getId()));
+        this.commentService.createComment(comment);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Phản hỏi dịch vụ thành công", null),
+                HttpStatus.CREATED);
+    }
+
+    @PostMapping("/rates")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> createRate(@RequestBody Rate rate) {
+        rate.setUser(this.userService.findById(getCurrentUser().getId()));
+        if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(true, "Bạn chỉ được đánh giá một lần", null),
+                    HttpStatus.CREATED);
+        }
+        this.rateService.createRate(rate);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Đánh giá thành công", null),
+                HttpStatus.CREATED);
+    }
+
+    @GetMapping("/rates/{houseId}")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<StandardResponse> getRateByUserIdAndHouseId(@PathVariable Long houseId){
+        Rate rate = this.rateService.findByUserIdAndHouseId(getCurrentUser().getId(), houseId);
+        if(rate == null){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(false, "Bạn chưa đánh giá cho dịch vụ này!", null), HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "Lấy đánh gía thành công", rate), HttpStatus.OK);
     }
 }
 

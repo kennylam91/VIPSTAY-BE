@@ -1,10 +1,7 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
-import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.OrderHouse;
-import com.fourmen.vipstay.model.StatusHouse;
-import com.fourmen.vipstay.model.User;
+import com.fourmen.vipstay.model.*;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,12 @@ public class HouseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private RateService rateService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -130,6 +133,36 @@ public class HouseController {
 
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get list status houses", statusHouses),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comments/{houseId}", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> listCommentsbyHouseId(@PathVariable Long houseId) {
+        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
+
+        if (comments.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", comments),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rates/{houseId}", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> listRatesbyHouseId(@PathVariable Long houseId) {
+        List<Rate> rates = this.rateService.findAllByHouseId(houseId);
+
+        if (rates.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", rates),
                 HttpStatus.OK);
     }
 
