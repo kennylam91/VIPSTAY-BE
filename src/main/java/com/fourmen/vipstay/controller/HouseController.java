@@ -9,6 +9,7 @@ import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class HouseController {
     @Autowired
     private StatusHouseService statusHouseService;
 
-    @RequestMapping(value = "/houses", method = RequestMethod.GET)
+    @RequestMapping(value = "/houses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StandardResponse> listAllHouse() {
         List<House> houses = this.houseService.findAll();
 
@@ -54,8 +55,8 @@ public class HouseController {
         for (House house : houses) {
             List<String> listImageUrlOfHouse = imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
             house.setImageUrls(listImageUrlOfHouse);
-            List<Long> orderHouseIds = orderHouseService.getOrderIdsByHouseId(house.getId());
-            house.setOrderHouseIds(orderHouseIds);
+            List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(house.getId());
+            house.setOrderHouses(orderHouses);
         }
 
         return new ResponseEntity<StandardResponse>(

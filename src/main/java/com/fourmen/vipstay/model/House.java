@@ -1,5 +1,7 @@
 package com.fourmen.vipstay.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class House {
     private List<String> imageUrls;
 
     @OneToMany(targetEntity = OrderHouse.class)
-    private List<Long> orderHouseIds;
+    @JsonManagedReference
+    private List<OrderHouse> orderHouses;
 
     private String address;
 
@@ -166,11 +169,11 @@ public class House {
         this.user = user;
     }
 
-    public List<Long> getOrderHouseIds() {
-        return orderHouseIds;
+    public List<OrderHouse> getOrderHouses() {
+        return orderHouses;
     }
 
-    public void setOrderHouseIds(List<Long> orderHouseIds) {
-        this.orderHouseIds = orderHouseIds;
+    public void setOrderHouses(List<OrderHouse> orderHouses) {
+        this.orderHouses = orderHouses;
     }
 }

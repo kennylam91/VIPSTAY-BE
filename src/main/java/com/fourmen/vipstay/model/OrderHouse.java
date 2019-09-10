@@ -1,5 +1,7 @@
 package com.fourmen.vipstay.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ public class OrderHouse {
 
     @ManyToOne
     @JoinColumn(name = "house_id")
+    @JsonBackReference
     private House house;
 
     @ManyToOne

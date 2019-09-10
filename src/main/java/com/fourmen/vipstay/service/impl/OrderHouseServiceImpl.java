@@ -31,6 +31,11 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     }
 
     @Override
+    public List<OrderHouse> findOrderHousesByHouseId(long id) {
+        return orderHouseRepository.findOrderHousesByHouseId(id);
+    }
+
+    @Override
     public List<Long> getOrderIdsByHouseId(long id) {
         List<Long> listOrderId=new ArrayList<>();
         List<OrderHouse> orderHouses=orderHouseRepository.findOrderHousesByHouseId(id);
