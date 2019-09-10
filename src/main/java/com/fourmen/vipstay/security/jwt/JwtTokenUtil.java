@@ -58,6 +58,8 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(Authentication authentication) {
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 
+
+
         return Jwts.builder()
                 .setSubject(userPrinciple.getUsername())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))

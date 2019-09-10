@@ -39,7 +39,7 @@ public class HostController {
     }
 
     @GetMapping("/houses")
-//    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<StandardResponse> listHouseOfHost() {
 //        long userId = getCurrentUser().getId();
         List<House> houses = houseService.findByUserId(getCurrentUser().getId());
@@ -122,6 +122,7 @@ public class HostController {
     }
 
     @RequestMapping(value = "/house/orderOfUser/{id}",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('HOST')")
     public  ResponseEntity<StandardResponse> getHouseOrderByUser(@PathVariable("id") Long id){
         List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
         return new ResponseEntity<StandardResponse>(new StandardResponse(true,"list all order",orderHouses),HttpStatus.OK);

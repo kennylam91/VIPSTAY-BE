@@ -62,7 +62,7 @@ public class JwtAuthenController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             return new  ResponseEntity<StandardResponse>(
-                    new StandardResponse(true,"Generate token successfully",new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+                    new StandardResponse(true,"succsess"+loginRequest.getPassword(),new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
