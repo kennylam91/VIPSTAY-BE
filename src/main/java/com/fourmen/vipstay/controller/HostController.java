@@ -184,4 +184,11 @@ public class HostController {
                 new StandardResponse(true,"Delete the house successfully",null),
                 HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/house/orderOfUser/{id}",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('HOST')")
+    public  ResponseEntity<StandardResponse> getHouseOrderByUser(@PathVariable("id") Long id){
+        List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true,"list all order",orderHouses),HttpStatus.OK);
+    }
 }

@@ -46,7 +46,7 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('HOST')")
     public ResponseEntity<StandardResponse> listOrderOfGuest() {
         List<OrderHouse> orderHouses = this.orderHouseService.findOrderHousesByTenantId(getCurrentUser().getId());
 
