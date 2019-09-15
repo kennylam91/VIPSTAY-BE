@@ -37,6 +37,8 @@ public class User{
     @Size(min=6, max = 100)
     private String password;
 
+    private String avatar;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -94,6 +96,14 @@ public class User{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Set<Role> getRoles() {

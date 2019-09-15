@@ -144,6 +144,9 @@ public class HostController {
     @PutMapping("/houses/{id}")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<StandardResponse> editHouse(@RequestBody House house, @PathVariable Long id) {
+        Category category=categoryService.findByName(house.getCategory().getName());
+        house.setCategory(category);
+
         House currentHouse = this.houseService.findById(id);
 
         if (currentHouse == null) {
@@ -164,7 +167,7 @@ public class HostController {
 
         this.houseService.updateHouse(currentHouse);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Update the house successfully", null),
+                new StandardResponse(true, "Cập nhật thành công", null),
                 HttpStatus.ACCEPTED);
     }
 
