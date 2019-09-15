@@ -17,6 +17,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 //This class extends the WebSecurityConfigurerAdapter
 // is a convenience class that allows customization
@@ -56,9 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
-                .cors().and()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/api/login", "/api/signup", "/api/host/signup", "/api/houses", "/api/houses/*", "/api/statusHouses/*").permitAll()
+                .authorizeRequests().antMatchers("/api/login", "/api/signup", "/api/host/signup", "/api/houses", "/api/houses/*", "/api/statusHouses/*","/api/me/comments/*","/api/comments/*","/api/me/rates/*","/api/rates/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and().
@@ -70,18 +74,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //CORN
-//        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
-//
-//            @Override
-//            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-//                CorsConfiguration config = new CorsConfiguration();
-//                config.setAllowedHeaders(Collections.singletonList("*"));
-//                config.setAllowedMethods(Collections.singletonList("*"));
-//                config.addAllowedOrigin("*");
-//                config.setAllowCredentials(true);
-//                return config;
-//            }
-//        });
+        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
+
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedHeaders(Collections.singletonList("*"));
+                config.setAllowedMethods(Collections.singletonList("*"));
+                config.addAllowedOrigin("*");
+                config.setAllowCredentials(true);
+                return config;
+            }
+        });
 
     }
 

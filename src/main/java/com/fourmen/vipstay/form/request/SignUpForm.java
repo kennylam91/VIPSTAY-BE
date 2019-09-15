@@ -26,6 +26,8 @@ public class SignUpForm {
     @Size(min = 6, max = 40)
     private String password;
 
+    private String avatar;
+
     public String getName() {
         return name;
     }
@@ -58,8 +60,15 @@ public class SignUpForm {
         this.password = password;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
 
-//    public Set<String> getRole() {
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    //    public Set<String> getRole() {
 //        return this.role;
 //    }
 //

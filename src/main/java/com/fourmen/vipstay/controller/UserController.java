@@ -1,27 +1,26 @@
 package com.fourmen.vipstay.controller;
 
-import com.fourmen.vipstay.form.request.LogInForm;
 import com.fourmen.vipstay.form.response.JwtResponse;
 import com.fourmen.vipstay.form.response.StandardResponse;
 import com.fourmen.vipstay.model.User;
 import com.fourmen.vipstay.security.jwt.JwtTokenUtil;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -42,7 +42,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         // set some default user
+        String[] avatar1 = new String[]{"https://www.pinclipart.com/picdir/middle/31-317389_facebook-clipart-emoji-love-emoticon-facebook-png-transparent.png",
+                "https://p7.hiclipart.com/preview/303/173/296/smiley-emoticon-facebook-messenger-emoji-thumbtack.jpg",
+                "http://www.vectorico.com/download/emoticon/Facebook-Wow.png"};
         String[] userDefaultStr = new String[]{"admin", "host", "guest"};
+        int j=0;
         for (String userStr : userDefaultStr) {
             if (userRepository.findByUsername(userStr) == null) {
                 User user = new User();
@@ -51,14 +55,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 user.setName(userStr);
                 user.setUsername(userStr);
                 user.setPassword(passwordEncoder.encode("123456"));
+                user.setAvatar(avatar1[j]);
                 Set<Role> roles = new HashSet<>();
                 RoleName roleName = userStr.equals("admin") ? RoleName.ROLE_ADMIN :
                         userStr.equals("host") ? RoleName.ROLE_HOST : RoleName.ROLE_GUEST;
                 roles.add(roleRepository.findByName(roleName));
                 user.setRoles(roles);
                 userRepository.save(user);
+                j++;
             }
         }
+
+        String[] avatar2=new String[]{"https://cdn.imgbin.com/1/8/13/imgbin-face-with-tears-of-joy-emoji-smiley-emoticon-facebook-emoji-facebook-lol-emoji-cBnQyK6rTj8yJKF8GzSNyvHmk.jpg",
+        "https://www.pinpng.com/pngs/m/47-476227_icon-sad-facebook-gif-png-clipart-computer-icons.png",
+        "https://www.freepngimg.com/download/facebook/65441-emoticon-like-button-haha-facebook-emoji.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Emojione_1F60B.svg/1024px-Emojione_1F60B.svg.png"};
         String[] users = new String[]{"Dat", "Khanh", "Thao", "Lam"};
         User[] userList = new User[4];
         int stt = 0;
@@ -70,6 +81,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 user.setName(userStr);
                 user.setUsername(userStr);
                 user.setPassword(passwordEncoder.encode("123456"));
+                user.setAvatar(avatar2[stt]);
                 Set<Role> roles = new HashSet<>();
                 RoleName roleName = RoleName.ROLE_HOST;
                 roles.add(roleRepository.findByName(roleName));
@@ -81,7 +93,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         //set default category data
-        String[] categories=new String[]{"House","Villa","Resort","Hotel"};
+        String[] categories = new String[]{"House", "Villa", "Resort", "Hotel"};
         for (String category : categories) {
             if (categoryRepository.findByName(category) == null) {
                 categoryRepository.save(new Category(category));
@@ -162,11 +174,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 }
                 this.houseRepository.save(house);
                 //save images for house
-                ImageOfHouse imageOfHouse1=new ImageOfHouse(imageHouses[i][0],house);
+                ImageOfHouse imageOfHouse1 = new ImageOfHouse(imageHouses[i][0], house);
                 this.imageHouseRepository.save(imageOfHouse1);
-                ImageOfHouse imageOfHouse2=new ImageOfHouse(imageHouses[i][1],house);
+                ImageOfHouse imageOfHouse2 = new ImageOfHouse(imageHouses[i][1], house);
                 this.imageHouseRepository.save(imageOfHouse2);
-                ImageOfHouse imageOfHouse3=new ImageOfHouse(imageHouses[i][2],house);
+                ImageOfHouse imageOfHouse3 = new ImageOfHouse(imageHouses[i][2], house);
                 this.imageHouseRepository.save(imageOfHouse3);
             }
         }

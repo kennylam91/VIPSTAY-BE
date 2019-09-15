@@ -30,6 +30,9 @@ public class OrderHouse {
 
     private Date orderTime;
 
+    @Enumerated(EnumType.STRING)
+    private StatusOrder statusOrder;
+
     public OrderHouse(){};
 
     public OrderHouse(Date checkin, Date checkout, Long numberGuest, Long cost, Date orderTime) {
@@ -102,5 +105,13 @@ public class OrderHouse {
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public StatusOrder getStatusOrder() {
+        return statusOrder;
+    }
+
+    public void setStatusOrder(StatusOrder statusOrder) {
+        this.statusOrder = statusOrder;
     }
 }

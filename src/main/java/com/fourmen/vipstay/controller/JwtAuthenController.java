@@ -91,7 +91,7 @@ public class JwtAuthenController {
 
         // Creating user's account
         User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword()));
+                passwordEncoder.encode(signUpRequest.getPassword()),signUpRequest.getAvatar());
 
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByName(RoleName.ROLE_HOST);
@@ -122,7 +122,7 @@ public class JwtAuthenController {
 
         // Creating user's account
         User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword()));
+                passwordEncoder.encode(signUpRequest.getPassword()),signUpRequest.getAvatar());
 
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByName(RoleName.ROLE_GUEST);

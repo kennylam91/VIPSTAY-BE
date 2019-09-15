@@ -1,11 +1,7 @@
 package com.fourmen.vipstay.controller;
 
 import com.fourmen.vipstay.form.response.StandardResponse;
-import com.fourmen.vipstay.model.House;
-import com.fourmen.vipstay.model.Comment;
-import com.fourmen.vipstay.model.OrderHouse;
-import com.fourmen.vipstay.model.Rate;
-import com.fourmen.vipstay.model.StatusHouse;
+import com.fourmen.vipstay.model.*;
 import com.fourmen.vipstay.security.service.UserPrinciple;
 import com.fourmen.vipstay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +90,7 @@ public class GuestController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/orders/{id}/delete", method = RequestMethod.GET)
     @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
     public ResponseEntity<StandardResponse> deleteOrderHouse(@PathVariable Long id) {
         OrderHouse orderHouse = this.orderHouseService.findById(id);
@@ -107,7 +103,8 @@ public class GuestController {
                     new StandardResponse(false, "Không thể hủy đơn hàng", null),
                     HttpStatus.OK);
         }
-        this.orderHouseService.deleteOrderHouse(id);
+        orderHouse.setStatusOrder(StatusOrder.CANCELED);
+        this.orderHouseService.updateOrderHouse(orderHouse);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Hủy đơn hàng thành công", null),
                 HttpStatus.OK);

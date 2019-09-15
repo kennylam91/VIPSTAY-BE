@@ -108,6 +108,7 @@ public class HouseController {
         orderHouse.setHouse(house);
         User tenant = userService.findById(getCurrentUser().getId());
         orderHouse.setTenant(tenant);
+        orderHouse.setStatusOrder(StatusOrder.PROCESSING);
         orderHouseService.createOrderHouse(orderHouse);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Đặt nhà thành công", null),
