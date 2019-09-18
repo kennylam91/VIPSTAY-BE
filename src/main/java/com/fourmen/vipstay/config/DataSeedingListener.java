@@ -101,15 +101,15 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         //set list house
-        String[] addresses = new String[]{"Hà Nội", "Hồ Chí Minh", "Đà Lạt", "Đà Nẵng", "SaPa", "Huế", "Hạ Long", "Nha Trang", "Phan Thiết", "Đồ Sơn"};
-        String[] houseNames = new String[]{"Đạt's House", "Khánh's House", "Thảo's House", "Lâm's House", "Nam's House", "Tuấn Anh's House", "Văn's House", "Tiên's House", "Tình's House", "Giang's House",};
-        String[] descriptions = new String[]{"Dien tich 1000m2, day du trang thiet bi", "Dien tich 600m2, nha huong Dong Nam", "Dien tich 750 m2, sale off 20%", "Dien tich 800 m2, nha gan trung tam thanh pho", "Dien tich 900 m2, nha 4 mat tien, thoang mat", "Dien tich 800 m2, nha thoang mat, ve sinh sach se", "Dien tich 1200 m2, can nha smartHouse", "Dien tich 650 m2, nha phong cach tan co dien", "Dien tich 900 m2, gan bien va cac khu giai tri", "Dien tich 989 m2, gan trung tam thanh pho"};
-        int[] bathrooms = new int[]{2, 3, 4, 3, 5, 3, 4, 4, 2, 5};
-        int[] bedrooms = new int[]{2, 3, 4, 3, 5, 3, 4, 4, 2, 5};
-        int[] prices = new int[]{1000, 400, 400, 300, 500, 300, 400, 400, 200, 500};
-        int[] rates = new int[]{5, 3, 4, 2, 3, 4, 5, 3, 4, 4};
-        int[] areas = new int[]{100, 70, 50, 80, 120, 80, 90, 60, 100, 90};
-        String[] cagories = new String[]{"Hotel", "Villa", "Resort", "House"};
+        String[] addresses = new String[]{"Hà Nội", "Hồ Chí Minh", "Đà Lạt", "Đà Nẵng", "SaPa", "Huế", "Hạ Long", "Nha Trang", "Phan Thiết", "Đồ Sơn","Hà Giang","Vũng Tàu"};
+        String[] houseNames = new String[]{"Đạt's House", "Khánh's House", "Thảo's House", "Lâm's House", "Nam's House", "Tuấn Anh's House", "Văn's House", "Tiên's House", "Tình's House", "Giang's House","Hòa's House","Hoàng's House"};
+        String[] descriptions = new String[]{"Dien tich 1000m2, day du trang thiet bi", "Dien tich 600m2, nha huong Dong Nam", "Dien tich 750 m2, sale off 20%", "Dien tich 800 m2, nha gan trung tam thanh pho", "Dien tich 900 m2, nha 4 mat tien, thoang mat", "Dien tich 800 m2, nha thoang mat, ve sinh sach se", "Dien tich 1200 m2, can nha smartHouse", "Dien tich 650 m2, nha phong cach tan co dien", "Dien tich 900 m2, gan bien va cac khu giai tri", "Dien tich 989 m2, gan trung tam thanh pho", "Dien tich 900 m2, gan bien va cac khu giai tri", "Dien tich 989 m2, gan trung tam thanh pho"};
+        int[] bathrooms = new int[]{2, 3, 4, 3, 5, 3, 4, 4, 2, 5,4,5};
+        int[] bedrooms = new int[]{2, 3, 4, 3, 5, 3, 4, 4, 2, 5,5,4};
+        int[] prices = new int[]{1000, 400, 400, 300, 500, 300, 400, 400, 200, 500,999,666};
+        int[] rates = new int[]{5, 3, 4, 2, 3, 4, 5, 3, 4, 4,5,5};
+        int[] areas = new int[]{100, 70, 50, 80, 120, 80, 90, 60, 100, 90,100,100};
+        String[] cagories = new String[]{"Hotel", "Villa", "Resort", "Home"};
         String[][] imageHouses = new String[][]{
                 {"https://cdn.luxstay.com/rooms/24507/large/room_24507_292_1557131217.jpg",
                         "https://cdn.luxstay.com/rooms/24507/large/room_24507_291_1557131215.jpg",
@@ -140,9 +140,15 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                         "https://cdn.luxstay.com/rooms/12568/large/1527155542__MG_8833.jpg"},
                 {"https://cdn.luxstay.com/rooms/13338/large/1531106498_LEP_1354.jpg",
                         "https://cdn.luxstay.com/rooms/13338/large/1531106496_LEP_1360.jpg",
-                        "https://cdn.luxstay.com/rooms/13338/large/1531106461_LEP_1291.jpg"}
+                        "https://cdn.luxstay.com/rooms/13338/large/1531106461_LEP_1291.jpg"},
+                {"https://cdn.luxstay.com/rooms/26385/large/room_26385_35_1560698760.jpg",
+                        "https://cdn.luxstay.com/rooms/26385/large/room_26385_32_1560698757.jpg",
+                        "https://cdn.luxstay.com/rooms/26385/large/room_26385_29_1560698753.jpg"},
+                {"https://cdn.luxstay.com/rooms/17189/large/room_17189_2_1542693223.jpg",
+                        "https://cdn.luxstay.com/rooms/17189/large/room_17189_1542688990.jpg",
+                        "https://cdn.luxstay.com/rooms/17189/large/room_17189_1542688851.jpg"}
         };
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 12; i++) {
             House house = new House();
             house.setHouseName(houseNames[i]);
             boolean isExistHouse = houseRepository.findByHouseName(house.getHouseName()) == null;
@@ -167,9 +173,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                     house.setCategory(category);
 
                 } else {
-                    house.setUser(userList[i - 7]);
-                    Category category = new Category(cagories[i - 7]);
-                    category.setId((long) i - 6);
+                    house.setUser(userList[i - 8]);
+                    Category category = new Category(cagories[i - 8]);
+                    category.setId((long) i - 7);
                     house.setCategory(category);
                 }
                 this.houseRepository.save(house);
