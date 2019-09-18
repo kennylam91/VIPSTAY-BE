@@ -42,9 +42,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         // set some default user
-        String[] avatar1 = new String[]{"https://www.pinclipart.com/picdir/middle/31-317389_facebook-clipart-emoji-love-emoticon-facebook-png-transparent.png",
-                "https://p7.hiclipart.com/preview/303/173/296/smiley-emoticon-facebook-messenger-emoji-thumbtack.jpg",
-                "http://www.vectorico.com/download/emoticon/Facebook-Wow.png"};
+        String[] avatar1 = new String[]{"https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdZJR0V-0Gj4v1fYHNoYvF0zHUqKK9q0CnMN8-_ve9AcX1nJUx",
+                "https://banner2.kisspng.com/20180325/kxe/kisspng-teacher-education-student-course-school-avatar-5ab752767ae3f6.7668647915219636385034.jpg"};
         String[] userDefaultStr = new String[]{"admin", "host", "guest"};
         int j=0;
         for (String userStr : userDefaultStr) {
@@ -66,10 +66,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             }
         }
 
-        String[] avatar2=new String[]{"https://cdn.imgbin.com/1/8/13/imgbin-face-with-tears-of-joy-emoji-smiley-emoticon-facebook-emoji-facebook-lol-emoji-cBnQyK6rTj8yJKF8GzSNyvHmk.jpg",
-        "https://www.pinpng.com/pngs/m/47-476227_icon-sad-facebook-gif-png-clipart-computer-icons.png",
-        "https://www.freepngimg.com/download/facebook/65441-emoticon-like-button-haha-facebook-emoji.png",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Emojione_1F60B.svg/1024px-Emojione_1F60B.svg.png"};
+        String[] avatar2=new String[]{"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkhdUUbnEjgVV3Py5PT2dP-hhdEK_ID7s4PuyJ3j02_Wbf8xK1",
+        "https://banner2.kisspng.com/20180325/kxe/kisspng-teacher-education-student-course-school-avatar-5ab752767ae3f6.7668647915219636385034.jpg",
+        "http://blog.gosocket.net/wp-content/uploads/2016/03/test1.png",
+        "https://cdn.iconscout.com/icon/free/png-256/avatar-380-456332.png"};
         String[] users = new String[]{"Dat", "Khanh", "Thao", "Lam"};
         User[] userList = new User[4];
         int stt = 0;
@@ -166,7 +166,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                     Category category = new Category(cagories[i]);
                     category.setId((long) i + 1);
                     house.setCategory(category);
-                } else if (i < 7) {
+                } else if (i < 8) {
                     house.setUser(userList[i - 4]);
                     Category category = new Category(cagories[i - 4]);
                     category.setId((long) i - 3);
